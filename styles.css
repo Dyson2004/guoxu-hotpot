@@ -784,3 +784,36 @@ body{font-size-adjust:from-font}
 @media(max-width:920px){
   .js :where(.header nav a[href="visit.html"] + .nav-sub){margin-block-start:14px;margin-inline-start:0}
 }
+
+/* ============================================================
+   2026-11-17 追加四：頁首收薄、首頁開鍋晶片進 hero、頁尾電話
+   結構移植自 worktree「全新畫面風格嘗試」，配色維持現行奶油／墨棕／紅。
+   頁首改用 min-height：內頁保留狀態晶片，921–1100px 折行時不裁切。
+   ============================================================ */
+
+html{--header-h:64px}
+.header{height:auto;min-height:64px}
+.navwrap{min-height:64px;gap:28px}
+.logo{font-size:19px;gap:10px}
+.logo img{width:40px;height:42px}
+.logo small{font-size:10px;letter-spacing:2px;color:var(--note)}
+
+@media(max-width:920px){
+  .header,.js .header{min-height:64px}
+  .navwrap{gap:8px 12px}
+}
+@media(max-width:680px){
+  .logo{font-size:17px;gap:6px}
+  .logo img{width:36px;height:38px}
+  .header,.js .header{min-height:64px}
+}
+
+/* 首頁 hero 的開鍋晶片（沿用 .open-now 基礎樣式） */
+.open-now--hero{margin:22px 0 0;padding:10px 16px;font-size:14px}
+
+/* 頁尾：電話、tagline、五個子項可換行 */
+.footer-inner{flex-wrap:wrap;row-gap:8px}
+.footer-tagline{font-size:14px;color:var(--note)}
+.footer-phone{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.footer-logo img{width:40px;height:42px}
+@media(max-width:680px){.footer-phone{width:100%;order:6}}

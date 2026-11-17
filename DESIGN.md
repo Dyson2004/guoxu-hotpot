@@ -267,11 +267,11 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 ### 營業狀態徽章（.open-now--head）（2026-11-13 登記）
 
-頁首的唯一動態營業狀態來源；script.js 以 Asia/Taipei 每 60 秒判斷並寫入（文字不變就不覆寫，避免 aria-live 打斷讀屏）。
+首頁 hero 與內頁頁首的唯一動態營業狀態來源（首頁以 .open-now--hero 置於 hero 按鈕列下方，內頁留在頁首）；script.js 以 Asia/Taipei 每 60 秒判斷並寫入（文字不變就不覆寫，避免 aria-live 打斷讀屏）。
 
 - **佈局**: inline-flex、gap 7px、margin 0；paper 底＋2px 墨棕框＋2px 硬陰影（`2px 2px 0 var(--ink)`）；font-size 13px、字重 900、line-height 1.4；padding 5px 12px；`font-variant-numeric: tabular-nums`；`white-space: normal`；`min-height: 44px`（觸控目標下限，2026-11-15 補，取代原本 28px 實高的例外）。
 - **圓點** `.dot`: 8px、正圓；營業中 var(--green)（帶脈動環，reduced-motion 下關閉）、未營業 var(--red)、閒置 var(--dot-idle)。
-- **≤920px**: 徽章併入頁首第一行（order 2、padding 5px 10px）；`.open-now-text` 退為 sr-only 全句，`::after` 改顯示 `data-mobile` 短字（開鍋中・21:30／N 分後開鍋／今天 17:00／明天 17:00／週六 11:00）；JS 關閉時 `data-mobile` 缺席，以 CSS2.1 相容雙宣告 fallback 為「營業時間」（2026-11-13：預設 `.open-now--head::after{content:"營業時間"}`、`.open-now--head[data-mobile]::after{content:attr(data-mobile)}`；雙參數 `attr(name,fallback)` 為 CSS Values Level 4 語法，Firefox 會整行丟棄）。
+- **≤920px**: 內頁徽章併入頁首第一行（order 2、padding 5px 10px）；首頁徽章改置 hero，同樣轉短句；`.open-now-text` 退為 sr-only 全句，`::after` 改顯示 `data-mobile` 短字（開鍋中・21:30／N 分後開鍋／今天 17:00／明天 17:00／週六 11:00）；JS 關閉時 `data-mobile` 缺席，以 CSS2.1 相容雙宣告 fallback 為「營業時間」（2026-11-13：預設 `.open-now--head::after{content:"營業時間"}`、`.open-now--head[data-mobile]::after{content:attr(data-mobile)}`；雙參數 `attr(name,fallback)` 為 CSS Values Level 4 語法，Firefox 會整行丟棄）。
 - **`aria-live="polite"`**: 掛在徽章本體；script.js 只在文字實際改變時寫入。
 - **靜態 fallback**: JS 關閉時桌機讀到 HTML 靜態句「平日晚間 17:00–21:30，週六 11:00–21:30」。
 
@@ -305,7 +305,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 本站無表單輸入；僅有連結與按鈕。焦點一律 3px 外框，紅底區塊用奶油色內縮框。
 
 ### Navigation
-頁首 94px 紙白底＋2px 墨棕底邊，導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁以紅色底線標記。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 75px 單行：logo 只留吉祥物圖示（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。
+頁首 min-height 64px（內容多時可長）紙白底＋2px 墨棕底邊；logo 吉祥物 40px、店名 19px；導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁以紅色底線標記。首頁開鍋晶片置於 hero（.open-now--hero），內頁留在頁首。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 64px 單行：logo 只留吉祥物圖示 36px（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。
 
 ### 社群 QR 按鈕（.ig-qr／.line-qr）（2026-11-14 登記）
 2026-11-14 用戶裁決：**QR 維持現狀**——不加可見文字標籤、不改手機文字按鈕；`visit.html` 資訊卡與 footer 兩組 QR 都保留（footer IG 80px／LINE 72px，visit 144px／136px）。
