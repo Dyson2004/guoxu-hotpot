@@ -821,7 +821,7 @@ html{--header-h:64px}
 /* ============================================================
    2026-11-18 追加一：首頁 hero 照片領銜
    紙白襯邊＋粗框＋硬陰影＋微傾的「實體照片」貼在價目牌上；
-   桌機右偏、手機先見照片、小寬滿版出血。只用既有色票。
+   桌機右偏、手機文字先在前、照片在後、小寬滿版出血。只用既有色票。
    ============================================================ */
 
 /* 桌機：hero 留沙米底＋墨棕下框，與下方區塊切開 */
@@ -839,7 +839,6 @@ html{--header-h:64px}
 
 @media(max-width:920px){
   .hero-content{grid-template-columns:1fr;gap:0}
-  .hero-photo{order:-1;justify-self:stretch;max-width:none;margin:0 0 28px;transform:none}
   .hero-left{padding:0 0 40px}
 }
 
@@ -924,3 +923,15 @@ body{background-image:var(--paper-grain);background-size:96px 96px;background-re
   .hero-photo picture::before{content:none}
   .hero-photo::after{content:none}
 }
+
+/* ============================================================
+   2026-11-18 追加四：hero 開鍋晶片收成貼紙
+   ============================================================ */
+.open-now--hero{align-self:flex-start;width:fit-content;max-width:100%}
+@media(max-width:920px){.hero-left{padding-top:24px}}
+
+/* ============================================================
+   2026-11-18 追加五：補回 ≤920px hero-photo 滿版／取消傾斜／底距
+   ============================================================ */
+@media(max-width:920px){.hero-photo{max-width:none;transform:none}}
+@media(min-width:681px) and (max-width:920px){.hero-photo{margin:0 0 28px}}
