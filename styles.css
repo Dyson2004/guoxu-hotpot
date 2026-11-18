@@ -817,3 +817,57 @@ html{--header-h:64px}
 .footer-phone{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
 .footer-logo img{width:40px;height:42px}
 @media(max-width:680px){.footer-phone{width:100%;order:6}}
+
+/* ============================================================
+   2026-11-18 追加一：首頁 hero 照片領銜
+   紙白襯邊＋粗框＋硬陰影＋微傾的「實體照片」貼在價目牌上；
+   桌機右偏、手機先見照片、小寬滿版出血。只用既有色票。
+   ============================================================ */
+
+/* 桌機：hero 留沙米底＋墨棕下框，與下方區塊切開 */
+.hero{background:var(--sand);border-bottom:2px solid var(--ink)}
+.hero-content{grid-template-columns:1fr 1.06fr;gap:52px;align-items:center;min-height:470px}
+.hero-left{padding:48px 0 44px}
+
+.hero-photo{position:relative;margin:0;padding:10px 10px 0;background:var(--paper);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--brown-deep);transform:rotate(1deg);justify-self:end;width:100%;max-width:620px}
+.hero-photo picture{display:block}
+.hero-photo picture img{width:100%;height:auto;display:block}
+.hero-photo figcaption{margin:0;padding:9px 2px 11px;font-size:13px;line-height:1.7;color:var(--note)}
+
+.hero-photo__price{position:absolute;top:-13px;left:-16px;z-index:3;background:var(--yellow);color:var(--deep);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:9px 13px;font-size:15px;font-weight:900;line-height:1.4;white-space:nowrap;font-variant-numeric:tabular-nums;transform:rotate(-6deg)}
+.hero-photo__mascot{position:absolute;right:-16px;bottom:32px;z-index:2;width:78px;height:auto;padding:6px;background:var(--paper);border:2px solid var(--ink);border-radius:4px;box-shadow:2px 2px 0 var(--ink);transform:rotate(-6deg)}
+
+@media(max-width:920px){
+  .hero-content{grid-template-columns:1fr;gap:0}
+  .hero-photo{order:-1;justify-self:stretch;max-width:none;margin:0 0 28px;transform:none}
+  .hero-left{padding:0 0 40px}
+}
+
+@media(max-width:680px){
+  .hero-photo{margin:0 -22px 24px;width:calc(100% + 44px);padding:0;border:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);box-shadow:none}
+  .hero-photo__price{top:12px;left:14px;font-size:14px;padding:8px 11px}
+  .hero-photo__mascot{width:60px;right:10px;bottom:42px}
+  .hero-photo figcaption{padding:10px 22px 12px}
+}
+
+/* ============================================================
+   2026-11-18 追加二：首頁 hero 事實帶重設計
+   單條紙白盒，項間 1px --dash 虛線分隔，無獨立 chip
+   桌機：3 款項並排，手機：雙欄第 3 項跨欄帶底虛線
+   ============================================================ */
+
+/* 桌機：單條紙白事實帶、項目排列與間距 */
+.hero h1{margin-bottom:12px}
+.hero p{font-size:17px;line-height:2;margin:0}
+.hero-facts{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,auto);width:fit-content;background:var(--paper);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);border-radius:4px;overflow:hidden;gap:0}
+.hero-facts li{background:transparent;border:0;box-shadow:none;border-radius:0;padding:8px 14px;font-size:15px;font-weight:900;line-height:1.5;color:var(--ink);white-space:nowrap}
+.hero-facts li+li{border-inline-start:1px dashed var(--dash)}
+.hero-links{margin-top:28px}
+.open-now--hero{margin-top:14px}
+
+/* ≤680px：手機雙欄，第 3 項跨欄並帶底虛線作區分 */
+@media(max-width:680px){
+  .hero-facts{grid-template-columns:1fr 1fr;width:100%}
+  .hero-facts li{font-size:15px}
+  .hero-facts li:nth-child(3){grid-column:1/-1;border-inline-start:0;border-block-start:1px dashed var(--dash);font-size:14px}
+}
