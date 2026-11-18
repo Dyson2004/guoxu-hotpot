@@ -165,6 +165,7 @@ components:
 
 ### Named Rules
 **The One Voice Rule.** 紅只說一件事：可點、重要、或現在。不要再引入第二口音色去稀釋它。
+**The Paper-Grain Token Rule.** `--paper-grain` 為非顏色 token（`assets/paper-grain.png` 位圖 texture，alpha ≤12），不是漸層、不是色票，不進配色決策；見 Components「紙紋材質 `.paper-grain`」登記。
 IG 與 LINE 官方 QR 圖按鈕（assets/ig-qr.png、assets/line-qr.png，用戶提供之官方素材；scdn.line-apps.com 已退役）為唯二外部品牌素材例外，不入 :root；2026-11-13 用戶裁決＋改版，見 PRODUCT.md §7。
 
 ### YAML ↔ :root 命名對照
@@ -302,7 +303,11 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **桌機版面**：`.hero` 維持沙米底並加 `2px` 墨棕下框（與下方區塊切開）；`.hero-content` 改 `grid-template-columns:1fr 1.06fr`、`gap:52px`（文字 1／照片 1.06）。
 - **≤920px**：`.hero-content` 收單欄，`.hero-photo` 以 `order:-1` 排在文字之前、`justify-self:stretch`、取消傾斜（`transform:none`）。
 - **≤680px**：照片左右出血滿版（`margin:0 -22px`、`width:calc(100% + 44px)`，不用 `100vw`，避免捲軸寬差造成水平捲動）；拆掉紙邊與外框陰影，只留上下 `2px` 墨棕框；價標改釘在照片內側（`top:12px`／`left:14px`、14px 字）；吉祥物貼紙縮為 60px。
-- **不加 `drop-shadow`**：照片與貼紙一律用 `box-shadow` 實色偏移，hero 自 2026-11-18 起已無 `filter: drop-shadow`。
+- **疊紙 `.hero-media`（2026-11-18）**：`<figure class="hero-photo">` 外包 `<div class="hero-media">`（`.hero-left` 不動、figure 內容不動）；`.hero-media` 為疊紙的定位錨點與左下露邊的參考框（`position:relative`、`width:100%`、`max-width:620px`、桌機 `justify-self:end`）。疊紙 `.hero-media::before`：`--board` 紙底＋2px 墨棕框、`rotate(-1.2deg) translate(-7px,9px)`、**左下露邊**、`z-index:0`（`.hero-photo` 以 `z-index:1` 壓在疊紙上）；`.hero-photo` 保留 `rotate(1deg)`，兩張紙成對（一張反傾 −1.2°、一張正傾 1°）。≤920px 疊紙改 `rotate(-0.8deg)`（translate 不變）；≤680px `content:none`。
+- **襯紙細線 `picture::before`（2026-11-18）**：`.hero-photo picture{position:relative}`；`.hero-photo picture::before{inset:0;border:1px dashed var(--dash);pointer-events:none;z-index:2}`——1px `--dash` 虛線只貼在照片外緣（照片框內的裁切線感），不跨 figcaption；`--dash` 僅作虛線分隔、不得當文字色。≤680px `content:none`。
+- **右上摺角（2026-11-18）**：`.hero-photo::after` 沙色三角形（`width:0;height:0`、`border-top:34px solid var(--sand)`、`border-left:34px solid transparent`、`z-index:2`、`pointer-events:none`，**無 `filter`、無 `drop-shadow`**）＋ `.hero-photo::before` 48px×2px 墨棕折線（`left:calc(100% - 34px)`、`top:0`、`width:48px`、`height:2px`、`background:var(--ink)`、`rotate(45deg)`、`transform-origin:0 50%`、`z-index:4`、`pointer-events:none`）——折線與摺角三角形**同座標系、同隨 `.hero-photo` 的 `rotate(1deg)` 旋轉**。**無 `drop-shadow` 仍成立**。另：疊紙 `.hero-media::before` 有 `pointer-events:none`。≤680px 收起清單：`.hero-media::before`（疊紙）、`.hero-photo::before`（折線）、`.hero-photo picture::before`（襯紙細線）、`.hero-photo::after`（摺角三角）全 `content:none`。
+- **≤680px 三項物理線索全部收起、紙紋保留**：疊紙／襯紙細線／摺角在 ≤680px 都是 `content:none`，但 `.hero-photo` 的紙紋 texture（見「紙紋材質 `.paper-grain`」登記）不受影響，仍疊 `--paper-grain`。
+- **不加 `drop-shadow`**：照片與貼紙一律用 `box-shadow` 實色偏移；**hero 無 drop-shadow（已移除摺角的 drop-shadow 實作，摺角改為無 filter 的沙色三角形＋墨棕折線）**。
 
 #### hero 事實帶 `.hero-facts`（2026-11-18 登記）
 
@@ -315,6 +320,19 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **無價格**：全三項皆非價格項；hero 唯一價格仍是照片卡左上 `.hero-photo__price`（「170 元起・多數 190」），事實帶不得再加價格。
 - **間距（2026-11-18 收緊）**：h1 → 段落 22px → **12px**；段落 → 事實帶 **28px**（`.hero-facts` 上距，原 22px）；事實帶 → CTA **28px**（`.hero-links` 上距，原 26px）；CTA → 開鍋晶片 **14px**（`.open-now--hero` 上距，原 22px）。事實帶與按鈕列、晶片之間的垂直節奏以此為準。
 - **JS**：事實帶為靜態資訊列，無 JS 行為；關 JS 時三項事實仍完整可讀。
+
+#### 紙紋材質 `.paper-grain`（2026-11-18 登記）
+
+整站紙面鋪一層極淡位圖噪點，讓「紙」不只是一個色值——這是 2026-11-18 使用者裁定「手工／實體紙」方向的一部分（疊紙／襯紙細線／摺角見上節；膠帶與裁切線本輪不做）。
+
+- **檔案**：`assets/paper-grain.png`，96×96、32bpp ARGB PNG（colortype 6、8-bit）、4,827 bytes；alpha max=10、avg≈2.23，色相為墨水色 `#382620`（＝`--ink`）。文件規範 alpha 上限 **12**（現值 max=10）；以 96px 磚平鋪（`background-size:96px 96px;background-repeat:repeat`）。
+- **非顏色、非漸層**：低透明位圖 texture，不是 CSS 漸層、不是色票、不是陰影；不入 `colors:` 與「YAML ↔ :root 命名對照」，配色決策不引用它。
+- **token**：`:root{--paper-grain:url("assets/paper-grain.png")}`——**非顏色 token**（見 Colors／Named Rules「The Paper-Grain Token Rule」）。
+- **適用表面（8 個選擇器）**：`body`、`.header`、`.hero`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact`；只疊 `background-image`＋`background-size`／`background-repeat`，不改原本的背景色、邊框與陰影。
+- **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下，上述 8 個選擇器一律 `background-image:none`。
+- **對比不變**：`--ink`/`--paper` 14.08:1（`--ink`/`--cream` 13.27:1，見 AGENTS.md 無障礙實測）；紋理即使以 alpha 上限（10/255）均勻覆蓋，最差擾動後仍 >12.8:1（實測約 13.14:1），遠高於 WCAG 2.2 AA 文字 4.5:1 下限。
+- **調整強度只改圖檔**：要調紋理強度就改 `paper-grain.png` 的 alpha（上限 12），不改版面 CSS；顏相、尺寸、`repeat` 方式都不在調整範圍。
+- **commit 前先實機檢視**：紋理是否搶過照片與邊框、投影／印刷下是否顯髒，都要在 commit 前用瀏覽器實測一輪；不滿意就改圖檔，不改版面。
 
 ### 位置示意圖元件 `.map-studio`（2026-11-14 登記，設計稿移植）
 

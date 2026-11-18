@@ -871,3 +871,56 @@ html{--header-h:64px}
   .hero-facts li{font-size:15px}
   .hero-facts li:nth-child(3){grid-column:1/-1;border-inline-start:0;border-block-start:1px dashed var(--dash);font-size:14px}
 }
+/* ============================================================
+   2026-11-18 追加三：整站紙紋＋手工疊紙／襯紙細線／摺角
+   只新增規則、覆寫既有樣式；未改動任何舊規則。
+   ============================================================ */
+
+/* 紙紋 token（點陣 texture，非顏色、非漸層） */
+:root{--paper-grain:url("assets/paper-grain.png")}
+
+/* 整站紙面鋪紋理（疊在既有底色之上；不改背景色／邊框／陰影） */
+body{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.header{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.hero{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.hero-photo{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.hero-facts{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.pot-item{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.menu-board{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+.contact{background-image:var(--paper-grain);background-size:96px 96px;background-repeat:repeat}
+
+/* 無障礙：強制色彩／高對比偏好下移除紙紋 */
+@media (forced-colors: active){
+  body,.header,.hero,.hero-photo,.hero-facts,.pot-item,.menu-board,.contact{background-image:none}
+}
+@media (prefers-contrast: more){
+  body,.header,.hero,.hero-photo,.hero-facts,.pot-item,.menu-board,.contact{background-image:none}
+}
+
+/* 手工疊紙（疊紙往左下露出邊緣；.hero-photo 既有 rotate(1deg) 保留成對） */
+.hero-media{position:relative;justify-self:end;width:100%;max-width:620px}
+.hero-media::before{content:"";position:absolute;inset:0;background:var(--board);border:2px solid var(--ink);transform:rotate(-1.2deg) translate(-7px,9px);z-index:0;pointer-events:none}
+.hero-media > .hero-photo{position:relative;z-index:1}
+
+/* 襯紙細線（只框住照片本體；不影響 figcaption） */
+.hero-photo picture{position:relative}
+.hero-photo picture::before{content:"";position:absolute;inset:0;border:1px dashed var(--dash);pointer-events:none;z-index:2}
+
+/* 摺角（右上角狗耳朵；沙色三角形＋2px 墨棕折線；無 filter） */
+.hero-photo::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-top:34px solid var(--sand);border-left:34px solid transparent;z-index:2;pointer-events:none}
+.hero-photo::before{content:"";position:absolute;left:calc(100% - 34px);top:0;width:48px;height:2px;background:var(--ink);transform:rotate(45deg);transform-origin:0 50%;z-index:4;pointer-events:none}
+
+/* ≤920px：單欄；疊紙仍成立，保留些微角度 */
+@media(max-width:920px){
+  .hero-media{justify-self:stretch;max-width:none}
+  .hero-media::before{transform:rotate(-0.8deg) translate(-7px,9px)}
+}
+
+/* ≤680px：照片滿版出血；疊紙／襯紙細線／摺角皆收起（紙紋保留） */
+@media(max-width:680px){
+  .hero-media{max-width:none;width:100%}
+  .hero-media::before{content:none}
+  .hero-photo::before{content:none}
+  .hero-photo picture::before{content:none}
+  .hero-photo::after{content:none}
+}
