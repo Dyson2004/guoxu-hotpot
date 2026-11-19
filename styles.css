@@ -6,6 +6,7 @@
 /* V3: character integrated into hero, not a pasted square photograph. */
 .hero-right{isolation:isolate}
 .hero-arc{position:absolute;inset:9% -8% 10% 4%;border-radius:52% 48% 46% 54%;background:var(--arc);transform:rotate(-9deg);z-index:-2}
+/* 2026-11-18 登記：此為死規則，全站 HTML 已無 .hero-right 元素；.hero-right .mascot 為全檔唯一 drop-shadow，僅存史錄，勿引用、勿以此為例 */
 .hero-right .mascot{width:min(430px,89%);height:auto;filter:drop-shadow(10px 12px 0 color-mix(in srgb,var(--deep) 14%,transparent));transform:rotate(-4deg);object-fit:contain}
 
 /* ============================================================
@@ -935,3 +936,7 @@ body{background-image:var(--paper-grain);background-size:96px 96px;background-re
    ============================================================ */
 @media(max-width:920px){.hero-photo{max-width:none;transform:none}}
 @media(min-width:681px) and (max-width:920px){.hero-photo{margin:0 0 28px}}
+
+/* ===== 2026-11-18 追加六：logo 觸控高度與等比（≤680px） ===== */
+.logo{min-height:44px}
+@media(max-width:680px){.logo img{width:44px;height:46px}}
