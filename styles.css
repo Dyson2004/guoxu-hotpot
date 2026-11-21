@@ -940,3 +940,146 @@ body{background-image:var(--paper-grain);background-size:96px 96px;background-re
 /* ===== 2026-11-18 追加六：logo 觸控高度與等比（≤680px） ===== */
 .logo{min-height:44px}
 @media(max-width:680px){.logo img{width:44px;height:46px}}
+
+/* ===== 2026-11-19 追加九：hero 兩層（顆粒 tile + 滿版 cover） ===== */
+.hero{background-image:url("assets/hero-fiber.png"),url("assets/hero-cover.webp");background-size:192px 192px,cover;background-repeat:repeat,no-repeat;background-position:0 0,center 45%}
+@media (forced-colors: active){.hero{background-image:none}}
+@media (prefers-contrast: more){.hero{background-image:none}}
+
+/* ============================================================
+   2026-11-21 追加：共用元件對齊紙板新粗野主義（_1 參考版）
+   只追加覆寫，不改上方既有規則
+   ============================================================ */
+
+/* (1) 幾何與陰影 token（追加式：只新增變數，不動 :root 既有值） */
+:root{
+  --radius-sm:6px;
+  --radius-md:8px;
+  --radius-lg:10px;
+  --shadow-1:2px 2px 0 var(--ink);
+  --shadow-2:4px 4px 0 var(--ink);
+  --shadow-3:6px 6px 0 var(--ink);
+}
+
+/* (2) 卡片圓角（上限 10px）；hero-facts 維持單條紙白事實帶，只換圓角 */
+.pot-item,.visit-card,.pot-card,.contact-right,.hero-facts{border-radius:var(--radius-md)}
+.menu-board{border-radius:var(--radius-lg)}
+.faq-item{border-radius:var(--radius-md)}
+.hours-table{border-radius:var(--radius-md)}
+.price-table{border-radius:var(--radius-md);overflow:hidden}
+.circle-label,.menu-badge{border-radius:var(--radius-sm)}
+
+/* (3) 三個按鈕：靜態 4px 硬陰影 → hover 浮起 6px → active 按壓 2px
+   不重複宣告 transition（沿用第 133 行既有過渡）；用色與 focus-visible 的
+   var(--on-red) 內縮外框、紅底區塊的 on-red 描邊按鈕全部保留不改 */
+.main-btn,.outline-btn,.header-cta{border-radius:var(--radius-md);box-shadow:var(--shadow-2)}
+.main-btn:hover,.outline-btn:hover,.header-cta:hover,
+.main-btn:focus-visible,.outline-btn:focus-visible,.header-cta:focus-visible{transform:translate(-2px,-2px);box-shadow:var(--shadow-3)}
+.main-btn:active,.outline-btn:active,.header-cta:active{transform:translate(2px,2px);box-shadow:var(--shadow-1)}
+
+/* (4) 桌機導覽 hover 貼紙化；aria-current 的紅字＋inset 底線原樣保留 */
+.header nav a{border-radius:var(--radius-sm);border:2px solid transparent;padding-inline:4px}
+.header nav a:not([aria-current="page"]):hover,
+.header nav a:not([aria-current="page"]):focus-visible{background:var(--sand);border-color:var(--ink);box-shadow:var(--shadow-1);transform:translate(-1px,-1px)}
+@media(max-width:920px){
+  .header nav a:not([aria-current="page"]):hover,
+  .header nav a:not([aria-current="page"]):focus-visible{background:var(--sand);border-color:transparent;box-shadow:none;transform:none}
+  .header nav a[aria-current="page"]:hover,
+  .header nav a[aria-current="page"]:focus-visible{background:var(--sand);border-color:transparent}
+}
+
+/* (5) 區塊節奏（不動 .hero 的 padding／高度規則） */
+.section{padding:84px 0}
+.menu-section{padding:76px 0}
+@media(max-width:680px){.section{padding:64px 0}.menu-section{padding:64px 0}}
+/* 補回既有例外（更高特異性）：.section 的全域節奏不得吃掉 menu-page／section-last */
+.section.menu-page{padding:72px 0 64px}
+.section.section-last{padding-bottom:40px}
+@media(max-width:680px){
+  .section.menu-page{padding:44px 0 40px}
+  .section.section-last{padding-bottom:40px}
+}
+
+/* (6) 頁尾深色變體：預設不生效，需後續 HTML 加 .footer--deep；404 維持現狀 */
+footer.footer--deep{background:var(--ink);color:var(--on-red);border-top:2px solid var(--ink)}
+footer.footer--deep .footer-logo{color:var(--on-red)}
+footer.footer--deep .footer-tagline{color:var(--sand)}
+footer.footer--deep .footer-phone{color:var(--yellow)}
+footer.footer--deep .footer-nav a{color:var(--sand);min-height:44px}
+footer.footer--deep .footer-nav a:hover,footer.footer--deep .footer-nav a:focus-visible{color:var(--yellow)}
+footer.footer--deep .footer-note{color:var(--sand)}
+footer.footer--deep .ink-link{color:var(--yellow);text-decoration-color:var(--yellow)}
+footer.footer--deep .footer-social img{background:var(--on-red);border-radius:4px}
+footer.footer--deep a:focus-visible{outline-color:var(--on-red)}
+@media(forced-colors:active){footer.footer--deep .footer-nav a,footer.footer--deep .ink-link{text-decoration:underline}}
+
+/* (7) 減少動態：本段新增的 transition／transform 全部停用（既有段落不動，此處再寫一次） */
+@media(prefers-reduced-motion:reduce){
+  .main-btn,.outline-btn,.header-cta{transition:none}
+  .main-btn:hover,.main-btn:focus-visible,.main-btn:active,
+  .outline-btn:hover,.outline-btn:focus-visible,.outline-btn:active,
+  .header-cta:hover,.header-cta:focus-visible,.header-cta:active{transform:none}
+  .header nav a{transition:none}
+  .header nav a:not([aria-current="page"]):hover,
+  .header nav a:not([aria-current="page"]):focus-visible{transform:none}
+}
+
+/* ============================================================
+   2026-11-21 追加二：首頁專用（hero tag-lead、價目卡片、深色頁尾四欄）
+   只追加，不改上方既有規則
+   ============================================================ */
+
+/* a) hero 地名徽章列：.hero p 為 (0,1,1)，故加 .hero 前綴提高特異性；並補 line-height 抵掉既有 2 */
+.hero .hero-tag-lead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;line-height:1.4}
+.hero-subbadge{background:var(--red);color:var(--on-red);font-size:13px;font-weight:900;letter-spacing:1px;padding:4px 10px;border:2px solid var(--ink);border-radius:var(--radius-sm);box-shadow:var(--shadow-1)}
+.hero-subtext{font-size:15px;font-weight:900;color:var(--note);border-bottom:2px dashed var(--dash);padding-bottom:2px}
+
+/* b) 價標改黃底貼紙（全站 pot 卡共用） */
+.circle-label{background:var(--yellow);color:var(--deep)}
+
+/* c) 價目列卡片化 */
+.board-row{background:var(--paper);border:2px solid var(--ink);border-bottom:2px solid var(--ink);box-shadow:var(--shadow-1);padding:12px 14px;margin:0 0 10px}
+a.board-row{transition:background .15s,transform .15s,box-shadow .15s}
+@media(hover:hover){a.board-row:hover{transform:translate(-1px,-1px);box-shadow:var(--shadow-2)}}
+
+/* d) 鍋卡 hover 浮起（只在可 hover 裝置） */
+@media(hover:hover){.pot-item{transition:transform .18s ease,box-shadow .18s ease}.pot-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-3)}}
+
+/* e) 深色頁尾四欄版面 */
+footer.footer--deep{padding:56px 0 28px}
+footer.footer--deep .footer-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:40px;align-items:start;padding-bottom:28px;border-bottom:2px dashed var(--line)}
+footer.footer--deep .footer-col{min-width:0}
+footer.footer--deep .footer-heading{font-size:14px;font-weight:900;letter-spacing:2px;color:var(--yellow);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+footer.footer--deep .footer-col p{margin:0 0 8px;font-size:14px;line-height:1.8;color:var(--sand)}
+footer.footer--deep .footer-col strong{color:var(--on-red);font-weight:900}
+footer.footer--deep .footer-muted{color:var(--line);font-size:13px}
+footer.footer--deep .footer-tagline{color:var(--sand);font-size:14px}
+footer.footer--deep .footer-address{color:var(--on-red);font-size:14px;line-height:1.8}
+footer.footer--deep .footer-logo{font-size:24px;color:var(--on-red)}
+footer.footer--deep .footer-logo img{width:40px;height:42px}
+footer.footer--deep .footer-nav{display:grid;gap:2px}
+footer.footer--deep .footer-bottom{display:flex;justify-content:space-between;align-items:flex-start;gap:12px 28px;flex-wrap:wrap;padding-top:20px}
+footer.footer--deep .footer-bottom .footer-note{margin:0;color:var(--sand)}
+@media(max-width:920px){footer.footer--deep .footer-grid{grid-template-columns:1fr 1fr;gap:28px}}
+@media(max-width:680px){footer.footer--deep{padding:40px 0 22px}footer.footer--deep .footer-grid{grid-template-columns:1fr;gap:24px}footer.footer--deep .footer-nav{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.pot-item,.board-row,.board-row:hover,.pot-item:hover{transition:none;transform:none}}
+
+/* e-補) 特異性修正：.footer-col p 為 (0,2,2)，會蓋過同段較低的 .footer-muted／.footer-address／
+   既有 deep 規則的 .footer-phone，補上 .footer-col p 前綴讓深色頁尾既定用色恢復 */
+footer.footer--deep .footer-col p.footer-muted{color:var(--line);font-size:13px}
+footer.footer--deep .footer-col p.footer-address{color:var(--on-red);font-size:14px;line-height:1.8}
+footer.footer--deep .footer-col p.footer-phone{color:var(--yellow);font-size:15px;font-weight:700}
+
+/* ============================================================
+   2026-11-21 追加三：內頁一致化（FAQ 收合卡圓角、內頁頁尾呼吸）
+   只追加，不改上方既有規則
+   ============================================================ */
+.faq-item summary{border-radius:var(--radius-md)}
+.faq-item[open] summary{border-end-start-radius:0;border-end-end-radius:0}
+@media(hover:hover){.faq-item summary{transition:background .15s}}
+
+/* ============================================================
+   2026-11-21 追加四：.hero 改為範本點紋風格（砂底＋細密點紋）
+   只追加，不改上方既有規則
+   ============================================================ */
+.hero{background-color:var(--sand);background-image:radial-gradient(var(--dash) 0.75px,transparent 0.75px);background-size:24px 24px}

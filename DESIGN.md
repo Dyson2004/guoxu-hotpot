@@ -50,20 +50,23 @@ typography:
     lineHeight: 1.4
     letterSpacing: "2px"
 rounded:
-  sm: "4px"
+  xs: "4px"     # 既有貼紙級（歷史）
+  sm: "6px"     # --radius-sm
+  md: "8px"     # --radius-md
+  lg: "10px"    # --radius-lg
 spacing:
   xs: "8px"
   sm: "12px"
   md: "22px"
   lg: "32px"
   xl: "44px"
-  section: "102px"        # .section（@680px 收 section-mobile）
-  section-mobile: "70px"  # .section @680px
+  section: "84px"         # .section（@680px 收 section-mobile）
+  section-mobile: "64px"  # .section @680px
   pad-page-head: "54px 0 46px"  # .page-head（@680px: 40px 0 34px）
   pad-menu-page: "72px 0 64px"  # .menu-page（菜單內頁主軸；@680px 見 pad-sides）
   pad-sides: "44px 0 40px"      # .menu-page @680px
   pad-contact: "80px 0"         # .contact
-  pad-band: "92px 0"            # .menu-section（紅底精選帶；@680px: 70px 0）
+  pad-band: "76px 0"            # .menu-section（紅底精選帶；@680px: 64px 0）
   # gap-layout：三處 grid 版面統一 90px（2026-11-13 code 已收斂；@920px 全收 40px、.about-layout 80px、@680px .contact-layout 30px）
   gap-layout: "90px"            # .menu-layout／.about-layout／.contact-layout
   gap-pot-grid: "22px"          # .pot-grid（@920px 12px／@680px 20px；.pot-cards 同 22px）
@@ -75,20 +78,22 @@ components:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.on-red}"
     typography: "{typography.body}"
-    rounded: "{rounded.sm}"
+    rounded: "{rounded.md}"
     padding: "15px 23px"
+    boxShadow: "4px 4px 0 {colors.ink}" # 靜態（2026-11-21）
   button-primary-hover:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.on-red}"
-    rounded: "{rounded.sm}"
+    rounded: "{rounded.md}"
     padding: "15px 23px"
     transform: "translate(-2px, -2px)" # 懸停／焦點浮起
-    boxShadow: "4px 4px 0 {colors.ink}"
+    boxShadow: "6px 6px 0 {colors.ink}" # hover 6px（2026-11-21）
     # active：transform 改為 translate(2px, 2px)、box-shadow 縮至 2px 2px 0 {colors.ink}
   button-outline:
     backgroundColor: "transparent"
     textColor: "currentColor"
     typography: "{typography.body}"
+    rounded: "{rounded.md}"
     padding: "15px 23px"
   button-header-cta:
     backgroundColor: "{colors.paper}"
@@ -96,11 +101,12 @@ components:
     fontSize: "14px"
     letterSpacing: "normal"
     fontWeight: 900
-    rounded: "{rounded.sm}"
+    rounded: "{rounded.md}"
     padding: "12px 19px"
   card-pot:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
+    rounded: "{rounded.md}"
     padding: "24px 23px 30px"
   badge-menu:
     backgroundColor: "{colors.mustard}"
@@ -108,6 +114,7 @@ components:
     fontSize: "14px"
     letterSpacing: "0.5px"
     fontWeight: 900
+    rounded: "{rounded.sm}"
     padding: "3px 10px"
   status-open-now:
     backgroundColor: "{colors.paper}"
@@ -142,7 +149,7 @@ components:
 - **燉煮深紅** (#622027): 大標題與 Logo 字色、深色狀態底，比主紅更暗，用於需要穩定、不刺眼的文字重量。
 
 ### Secondary
-- **芥末黃** (#f4cb5a): 菜單分類徽章與素食提示底色。只用在價格帶或需要快速掃到的分類，不作大面積底色。
+- **芥末黃** (#f4cb5a): 菜單分類徽章、素食提示與價目標籤（`.circle-label`）底色。只用在價格帶或需要快速掃到的分類，不作大面積底色。
 
 ### Tertiary
 - **開鍋綠** (#3f7f52): 僅作營業中狀態圓點，不進其他元件，避免第二口音色。
@@ -218,15 +225,16 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 ## Layout
 
-容器寬 `min(1140px, calc(100% - 44px))` 居中。桌面多為雙欄（首屏 1fr/1.06fr（2026-11-18 照片卡）、菜單 1fr/.86fr、關於 .8fr/1.1fr）與三欄鍋物格（repeat(3,1fr)，gap 22px）。區塊上下留白大（.section 102px，手機收為 70px），區塊標題以 2px 墨棕底線＋右側說明文字作分隔。斷點 1100px 先收窄頁首導覽間距（26px→18px），920px 收為單欄，680px 再壓字級與間距；頁首高度桌機 `min-height` 64px，920px 以下與 680px 以下 `min-height` 64px（logo 只留圖示、CTA 隱藏，見 Navigation）。錨點捲動留白只靠 `html` 的 `scroll-padding-top: calc(var(--header-h) + 14px)`（`section[id]`／`main[id]`／`#pot-nav` 的 `scroll-margin-top` 已歸零，避免雙重偏移），`--header-h` 64px，避免 sticky header 遮住標題。觸控目標最小 44px，價目與營業時間在關 JS 時仍完整可讀。
+容器寬 `min(1140px, calc(100% - 44px))` 居中。桌面多為雙欄（首屏 1fr/1.06fr（2026-11-18 照片卡）、菜單 1fr/.86fr、關於 .8fr/1.1fr）與三欄鍋物格（repeat(3,1fr)，gap 22px）。區塊上下留白大（`.section` 84px，手機 64px；`.menu-page`／`.section-last` 例外維持），區塊標題以 2px 墨棕底線＋右側說明文字作分隔。首頁 hero 於 `<h1>` 前有地名徽章列 `.hero-tag-lead`（紅底 `.hero-subbadge`＋`--dash` 虛線底線 `.hero-subtext`）。斷點 1100px 先收窄頁首導覽間距（26px→18px），920px 收為單欄，680px 再壓字級與間距；頁首高度桌機 `min-height` 64px，920px 以下與 680px 以下 `min-height` 64px（logo 只留圖示、CTA 隱藏，見 Navigation）。錨點捲動留白只靠 `html` 的 `scroll-padding-top: calc(var(--header-h) + 14px)`（`section[id]`／`main[id]`／`#pot-nav` 的 `scroll-margin-top` 已歸零，避免雙重偏移），`--header-h` 64px，避免 sticky header 遮住標題。觸控目標最小 44px，價目與營業時間在關 JS 時仍完整可讀。
 
 ## Elevation & Depth
 
-深度只來自硬陰影，沒有模糊、沒有漸層。陰影三級：徽章 2px、按鈕懸停／分類捷徑 4px、大面板（訪問卡・地圖・看板）6px；靜態卡片無陰影，皆為不透明色塊偏移。按壓時元件向陰影方向平移（translate(2px,2px)），陰影縮至 2px，像紙板被壓下。靜態主按鈕不帶陰影，懸停／焦點才浮起。
+深度只來自硬陰影，沒有模糊、沒有漸層。陰影三級：徽章 2px、靜態按鈕與分類捷徑 4px、按鈕懸停與大面板（訪問卡・地圖・看板）6px；靜態卡片依層級可有 2–6px 硬陰影（鍋卡靜態無陰影、hover 才 6px），皆為不透明色塊偏移。按壓時元件向陰影方向平移（translate(2px,2px)），陰影縮至 2px，像紙板被壓下。主按鈕靜態 4px 硬陰影，懸停／焦點 6px，按壓 2px（2026-11-21）。
 
 ### Shadow Vocabulary
-- **徽章 2px** (`box-shadow: 2px 2px 0 var(--ink)`): 菜單徽章、開鍋狀態徽章。
-- **元件 4px** (`box-shadow: 4px 4px 0 var(--ink)`): 按鈕懸停、分類捷徑。
+- **徽章 2px** (`box-shadow: 2px 2px 0 var(--ink)`): 菜單徽章、開鍋狀態徽章、價目列（`.board-row`）、導覽貼紙 hover。
+- **元件 4px** (`box-shadow: 4px 4px 0 var(--ink)`): 靜態主按鈕（`.main-btn`／`.outline-btn`／`.header-cta`）、分類捷徑、價目列 hover。
+- **hover 6px** (`box-shadow: 6px 6px 0 var(--ink)`): 按鈕懸停／焦點、鍋卡 hover。
 - **面板 6px** (`box-shadow: 6px 6px 0 var(--ink)`): 地圖、訪問大卡、價目牌看板。
 - **頁首現行頁** (`box-shadow: inset 0 -2px 0 var(--red)`): 頁首導覽 aria-current 現行頁下劃線。
 
@@ -244,15 +252,26 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 ## Shapes
 
-小圓角（4px）為主，圓形只給狀態圓點。邊框一律 2px 實線墨棕（看板 3px），表格內分隔用 1px 虛線。少量元件微傾斜（貼紙級 −1°～−6°）＋主紙片元素僅三個校準值：hero／menu-board 1°、circle-label 7°（見 Density Budget Rule）營造貼紙感，但文字本身不傾斜，傾的是容器。首屏自 2026-11-18 改為紙邊照片卡，原「吉祥物後有機形狀弧（52%/48% 橢圓、`.hero-arc`）」已隨大吉祥物退役；整體不用幾何裝飾。
+圓角 4／6／8／10px（2026-11-21 起擴充；--radius-sm/md/lg），圓形只給狀態圓點。邊框一律 2px 實線墨棕（看板 3px），表格內分隔用 1px 虛線。少量元件微傾斜（貼紙級 −1°～−6°）＋主紙片元素僅三個校準值：hero／menu-board 1°、circle-label 7°（見 Density Budget Rule）營造貼紙感，但文字本身不傾斜，傾的是容器。首屏自 2026-11-18 改為紙邊照片卡，原「吉祥物後有機形狀弧（52%/48% 橢圓、`.hero-arc`）」已隨大吉祥物退役；整體不用幾何裝飾。
 
 ## Components
 
-元件觸感統一為「粗實可按」：粗邊、硬陰影、按下去會凹陷。圓角只有 3／4／6px 三級，以 4px 為主；8px 以上只出現在 `.map-studio` 位置圖例外區（8／10／18px），不得外流。
+元件觸感統一為「粗實可按」：粗邊、硬陰影、按下去會凹陷。圓角三級 6／8／10px（`--radius-sm`／`--radius-md`／`--radius-lg`），`.map-studio` 仍例外使用 8／10／18px 與漸層。
+
+### 2026-11-21 紙板新粗野主義對齊（_1 參考版，登記）
+- **Token**：`--radius-sm:6px`／`--radius-md:8px`／`--radius-lg:10px`；`--shadow-1/2/3` = 2/4/6px 實色偏移（--ink）。仍無 blur、無漸層。
+- **按鈕**：靜態 4px → hover/focus 6px＋translate(-2px,-2px) → active 2px＋translate(2px,2px)；`.main-btn` focus-visible 仍用 `--on-red` 內縮框。
+- **導覽貼紙**：`.header nav a` 6px 圓角＋2px 透明框；非現行頁 hover = `--sand` 底＋墨棕框＋2px 陰影＋位移 -1px；`aria-current="page"` 維持紅字＋inset 底線。
+- **區塊節奏**：`.section` 84px（≤680px 64px）、`.menu-section` 76px（≤680px 64px）；`.section.menu-page` 與 `.section.section-last` 例外以更高特異性保留。
+- **首頁 hero 徽章列**：`.hero-tag-lead`（`.hero-subbadge` 紅底 on-red 字 13px 900＋2px 框＋2px 陰影；`.hero-subtext` `--note` 字＋2px `--dash` 虛線底線）；`.hero-facts` 仍為單條紙白事實帶（三項、無價格、非獨立 chip）。
+- **價標與價目列**：`.circle-label` 改 `--yellow` 底 `--deep` 字；`.board-row` 紙白卡（2px 框＋2px 陰影＋12px 14px 內距＋10px 下距），hover 裝置上 translate(-1px,-1px)＋4px。
+- **鍋卡 hover**：`@media(hover:hover)` 下 `translateY(-3px)`＋6px；靜態無陰影。
+- **FAQ**：`.faq-item summary` 圓角 8px；`[open]` 時下緣歸零。
+- **深色頁尾** `footer.footer--deep`：四欄（1.25fr/1fr/1fr/1fr、gap 40px；≤920px 2 欄、≤680px 1 欄），`--ink` 底；文字只用 `--on-red`／`--sand`／`--yellow`／`--line`（**禁用 `--note`**）；`.footer-heading` `--yellow` 14px 900＋2px `--line` 底線；底部兩行 `.footer-note`。404 維持原本紙白簡化頁尾。
 
 ### Buttons
-- **Shape:** 小圓角 (4px)，2px 描邊
-- **Primary:** 鍋湯深紅底＋反紅奶白字（var(--on-red)），padding 15px 23px，字重 900；懸停／焦點浮起 4px 硬陰影並位移 -2px，按壓回落 2px
+- **Shape:** 圓角 8px（`--radius-md`），2px 描邊
+- **Primary:** 鍋湯深紅底＋反紅奶白字（var(--on-red)），padding 15px 23px，字重 900；靜態 4px 硬陰影（2026-11-21）；懸停／焦點 6px＋translate(-2px,-2px)，按壓 2px＋translate(2px,2px)
 - **404 例外：** 404／錯誤頁唯一紅主按鈕指向 `index.html`（錯誤頁最普適的恢復路徑）；其餘頁紅主按鈕一律指向向前動作。
 - **Hover / Focus:** 輕微位移＋硬陰影；焦點外框 3px，紅底上改用奶油色內縮框確保可見
 - **Secondary / Ghost:** 描邊按鈕用 currentColor 描邊，深紅底區用米色描邊；頁首 CTA 為白底紅字描邊版
@@ -262,7 +281,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **State:** 菜單徽章微傾 -1°；開鍋狀態圓點綠（營業中）／紅（未營業），營業中帶脈動環（reduced-motion 下關閉）
 
 ### Cards / Containers
-- **Corner Style:** 小圓角 (4px) 為主；狀態點為正圓
+- **Corner Style:** 6／8／10px（`--radius-sm`／`--radius-md`／`--radius-lg`）；狀態點為正圓
 - **Background:** 紙白 (#fffdf7) 卡片，沙米 (#f5e8d1) 或鍋湯深紅作區塊底
 - **Shadow Strategy:** 見 Elevation & Depth 三級硬陰影
 - **Border:** 2px 墨棕實線；看板 3px 實線＋雙線標題分隔
@@ -282,7 +301,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 **照片帶 4px 陰影的鍋物卡本體不加陰影**（`.pot-card`）——照片自帶深度，再疊會過重；訪問卡／地圖／看板等無照片者用 6px。
 
-- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（紙白底、2px 墨棕邊、7° 微傾、字重 900）。
+- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（`--yellow` 底、`--deep` 字、2px 墨棕邊、7° 微傾、字重 900）。
 - **鍋物卡照片** `.pot-photo`（pot.html）：2px 墨棕邊＋4px 硬陰影（var(--ink)）、aspect-ratio 1440/1053、object-fit cover；內文排列不受影響。
 - **首屏 hero 吉祥物**（2026-11-14，**2026-11-18 退役**）：`<picture>` 先給 `assets/mascot-hero.webp`（377×391、約 18KB）＋PNG fallback `assets/mascot-hero.png`；`.hero-right picture{display:contents}` 讓 `<img>` 仍是 `.hero-right` 的 flex item，原 `.mascot` 寬度、rotate(-4deg)、drop-shadow 不變；`fetchpriority="high"` 保留在 img（首屏不 lazy）。**2026-11-18 起首頁 hero 不再使用大吉祥物與 `.hero-right`／`.hero-arc`**：改由照片卡 `.hero-photo` 領銜（見下節），吉祥物只在卡右下角以 78px 小貼紙出現（紙白底＋2px 框＋2px 硬陰影、`−6°`，非 `drop-shadow`）。
 - **吉祥物對外圖**（2026-11-14）：`index.html` `.about-image`（377×391）與 `guide.html` `.guide-lead`（188×195）同一張改用 `mascot-transparent.png`＋`mascot-transparent.webp`（377×391，webp 21,416B／png 131,872B），皆為 `<picture>`＋WebP `<source>`、PNG 作 `<img src>` fallback；`.about-image picture,.guide-lead picture{display:contents}` 沿用 hero 的做法，讓 `<img>` 繼續當版面盒，尺寸與間距不變。
@@ -334,6 +353,29 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **調整強度只改圖檔**：要調紋理強度就改 `paper-grain.png` 的 alpha（上限 12），不改版面 CSS；顏相、尺寸、`repeat` 方式都不在調整範圍。
 - **commit 前先實機檢視**：紋理是否搶過照片與邊框、投影／印刷下是否顯髒，都要在 commit 前用瀏覽器實測一輪；不滿意就改圖檔，不改版面。
 
+### `.hero` 專用做舊紙紋 `hero-cover`（2026-11-19 登記，滿版覆蓋版）
+
+2026-11-19 使用者裁示：**只把 `.hero`（米沙色頁首背景）的紙紋換成滿版單張覆蓋 `assets/hero-cover.webp`**（取代 2026-11-19 上午登記的專用磁磚方案）；其餘 7 處紙紋與 The Density Budget Rule「僅此五類」維持不動。
+
+- **檔案**：`assets/hero-cover.webp`，1600×600、INK alpha max≈60／avg≈25／std≈13、16 階量化、~80KB WebP（含 alpha）。文件規範：`.hero` 專用 alpha 上限 **60**；**非磁磚、不平鋪**（滿版單張覆蓋）。
+- **來源與授權**：Meshy AI CC0（free texture library，<https://www.meshy.ai/textures>；LICENSE.txt），取 `stained-old-parchment_1k_displacement.jpg` 後製——裁切 box=(0,0)–(1024,384)（全寬 8:3 橫幅）、縮放 1600×600、INK alpha。（2026-11-19 加強二版：percentile stretch p2=3/p98=247＋unsharp 1.2px/60% threshold 1，INNK alpha 對比曲線 raise、16 階量化；實測 avg≈25.1 std≈12.8 ~80KB）**非自生成材質**；CC0 可自由使用、修改、再分發，無需署名。
+- **使用**：**僅 `.hero`**，`background-size:cover;background-repeat:no-repeat;background-position:center 45%`；**滿版單張覆蓋、非磁磚、不平鋪**。其餘 7 處紙紋仍套 96px `--paper-grain`（≤12），Density Budget 不變。經 `styles.css` 追加八覆蓋 `.hero` 的 `background-image`／`background-size`／`background-repeat`／`background-position`；現由 styles.css 追加九改為**兩層疊加（纖維在上、cover 在下）**。`body`、`.header`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact` 的 `--paper-grain` 不變。
+- **token**：不新增 token；`:root` 的 `--paper-grain` 維持指向 `assets/paper-grain.png`，覆蓋只發生在 `.hero` 的 `background-image`，不動 token 與其他選擇器。
+- **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下，`.hero` 一律 `background-image:none`（追加八 media，與 `--paper-grain` 8 選擇器規則一致）。
+- **豁免範圍**：`.hero` 專用 alpha 上限 **60**（非磁磚版；比照前次 56 版豁免，限 `.hero`）；`body`／`.header`／`.hero-photo`／`.hero-facts`／`.pot-item`／`.menu-board`／`.contact` 的 `--paper-grain` 一律 ≤12；Density Budget「僅此五類」不動，本節不因此放寬通用上限。
+- **調整強度只改圖檔**：要調 `.hero` 紋理強度就改 `hero-cover.webp` 的 alpha（上限 60），不改版面 CSS、不必改其他 7 處、不動 Density Budget；不動 `--paper-grain`。
+- **刪除記錄**：舊 96×96 `hero-grain.png`（max 12→56 曾登記）於 2026-11-19 刪除，未曾 commit。
+- **Density Budget**：分類維持「紙紋（整站紙面）」同一類，**不增加手工元素類別**；「僅此五類」維持不動，本登記不另計、不放寬上限。
+- **加強二版與加強一版的差異**：alpha max 44→60、avg 19.5→25.1、std 8.6→12.8、12→16 階、59.5KB→80KB，bytes ≤90KB 不變；整片覆蓋仍非磁磚，cover/no-repeat，中心 weighted 45%，不平鋪。
+
+### `.hero` 顆粒層 `hero-fiber`（2026-11-19 登記，F1 疊加層）
+
+- **檔案**：`hero-fiber.png`、384×384、**13,134 bytes**、**palette PNG (P) + tRNS（每索引 alpha，等效 per-pixel alpha）**、ink `#382620`、alpha max **22**、levels **{0,8,14,18,22}**、alpha>0 **25.00%**、來源 `assets/stained-old-parchment-pbr-1k/stained-old-parchment_1k_color.jpg`（CC0，見 `LICENSE.txt`）後製、**無接縫比值 1.023**（wrap adjacency/內部比值 ≤1.2）、**mean|hp| 全圖 0.829／內部 256×256 0.804**（blur1.0）。
+- **製法概述**：灰階化高頻反差映射到 {8,14,18,22}，wrap-around 雙軸位移＋餘弦交叉淡化使可平鋪，量化為 4 個非零等級。CSS 顯示尺寸 192×192 repeat。
+- **使用方式**：**僅 `.hero`**，疊在 `hero-cover.webp` 之上。經 `styles.css` 追加九：`.hero` 使用兩層 `background-image` `url("assets/hero-fiber.png"), url("assets/hero-cover.webp")`，`background-size` `192px 192px, cover`，`background-repeat` `repeat, no-repeat`，`background-position` `0 0, center 45%`（纖維層在上、cover 在下）。`forced-colors: active` 與 `prefers-contrast: more` 下，`.hero` 一律 `background-image: none`。
+- **設計規範**：alpha 上限 **24**（本檔 max 22），不新增 token（仍以 `.hero` 覆蓋 `background-image` 為準）；不改其他 7 處 `--paper-grain`（`body`／`.header`／`.hero-photo`／`.hero-facts`／`.pot-item`／`.menu-board`／`.contact` 仍 ≤12）。**Density Budget**：維持「紙紋（整站紙面）」同一類，**不新增手工元素類別**；此為 `.hero` 的第二層紙紋例外（與 `hero-cover` 並列），「僅此五類」不因此改動。
+- **備註**：`hero-fiber.png` 不屬於 `--paper-grain` token，僅 `.hero` 使用；若要調整強度請改圖檔 alpha（≤24）或調整層級，不改其他 7 處與 Density Budget 通用上限。
+
 ### The Density Budget Rule（視覺密度預算，2026-11-18 登記）
 
 2026-11-18 外部建議主張把紙感寫成「Handmade Neo-Brutalism」並提出 70/20/10 視覺密度比例；本條將該觀念登記為本站的密度上限，不因此改動任何現有視覺。紙感可以加，但加之前先對照預算。
@@ -362,7 +404,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 本站無表單輸入；僅有連結與按鈕。焦點一律 3px 外框，紅底區塊用奶油色內縮框。
 
 ### Navigation
-頁首 min-height 64px（內容多時可長）紙白底＋2px 墨棕底邊；logo 吉祥物 40px、店名 19px；導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁以紅色底線標記。首頁開鍋晶片置於 hero（.open-now--hero），內頁留在頁首。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 64px 單行：logo 只留吉祥物圖示 44px（實渲染 44×46px，2026-11-18 追加六）（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。
+頁首 min-height 64px（內容多時可長）紙白底＋2px 墨棕底邊；logo 吉祥物 40px、店名 19px；導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁以紅色底線標記。首頁開鍋晶片置於 hero（.open-now--hero），內頁留在頁首。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 64px 單行：logo 只留吉祥物圖示 44px（實渲染 44×46px，2026-11-18 追加六）（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。非現行頁 hover／focus-visible 變 `--sand` 底＋2px 墨棕框＋2px 硬陰影＋translate(-1px,-1px)；`aria-current="page"` 紅字＋inset 底線不變；≤920px 抽屜內只換底色、不位移。
 
 ### 社群 QR 按鈕（.ig-qr／.line-qr）（2026-11-14 登記）
 2026-11-14 用戶裁決：**QR 維持現狀**——不加可見文字標籤、不改手機文字按鈕；`visit.html` 資訊卡與 footer 兩組 QR 都保留（footer IG 80px／LINE 72px，visit 144px／136px）。
