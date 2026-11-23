@@ -1,4 +1,4 @@
-# 鍋序 GUO XU HOT POT — https://2026xenia.github.io/guoxu-hotpot/
+# 鍋序 GUO XU HOT POT — https://guoxuhotpot.github.io/guoxu-hotpot/
 # 全站開放爬取。下列明示允許 AI 搜尋型爬蟲引用本站內容。
 # 若日後要退出 AI 訓練，請針對 GPTBot／Google-Extended／CCBot 另立 Disallow，勿一併封鎖 SearchBot 系列。
 
@@ -14,4 +14,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://2026xenia.github.io/guoxu-hotpot/sitemap.xml
+Sitemap: https://guoxuhotpot.github.io/guoxu-hotpot/sitemap.xml

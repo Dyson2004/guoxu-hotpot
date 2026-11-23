@@ -112,7 +112,7 @@ web
 | 字型 | Noto Sans TC，僅 400／700／900 三種字重 |
 | 外部依賴 | 只有 Google Fonts 與 Google Maps iframe（皆有 `loading="lazy"`；地圖 iframe 由點按「看地圖」才注入，本身也帶 `loading="lazy"`）；2026-11-13 LINE 綠按鈕退役後，站內無任何第三方熱連結圖 |
 | 圖片 | 一律給 `width`／`height`，首屏吉祥物 `fetchpriority="high"`，其餘 `loading="lazy"`；所有圖檔集中在 `assets/` |
-| 網址 | 正式站 `https://2026xenia.github.io/guoxu-hotpot/`；若換自訂網域，需同步 `canonical`／`og:url`／`og:image`／`sitemap.xml`／JSON-LD 的 `url` 與 `hasMenu` |
+| 網址 | 正式站 `https://guoxuhotpot.github.io/guoxu-hotpot/`；若換自訂網域，需同步 `canonical`／`og:url`／`og:image`／`sitemap.xml`／JSON-LD 的 `url` 與 `hasMenu` |
 - IG 與 LINE 官方 QR 圖按鈕（assets/ig-qr.png、assets/line-qr.png，皆官方素材、用戶裁決；scdn.line-apps.com 綠按鈕已退役）為全站唯二外部品牌素材例外（2026-11-13 用戶裁決＋改版）；其他顏色仍只取 styles.css :root。JSON-LD sameAs=[IG, LINE]。
 - **QR 按鈕維持現狀**（2026-11-14 用戶裁決）：不加可見文字標籤、不改手機文字按鈕；`visit.html` 資訊卡與 footer 兩組 QR 都保留。
 
