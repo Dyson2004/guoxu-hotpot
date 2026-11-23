@@ -907,7 +907,7 @@ body{background-image:var(--paper-grain);background-size:96px 96px;background-re
 .hero-photo picture::before{content:"";position:absolute;inset:0;border:1px dashed var(--dash);pointer-events:none;z-index:2}
 
 /* 摺角（右上角狗耳朵；沙色三角形＋2px 墨棕折線；無 filter） */
-.hero-photo::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-top:34px solid var(--sand);border-left:34px solid transparent;z-index:2;pointer-events:none}
+.hero-photo::after{content:"";position:absolute;top:0;right:0;width:0;height:0;border-top:34px solid var(--board);border-left:34px solid transparent;z-index:2;pointer-events:none}
 .hero-photo::before{content:"";position:absolute;left:calc(100% - 34px);top:0;width:48px;height:2px;background:var(--ink);transform:rotate(45deg);transform-origin:0 50%;z-index:4;pointer-events:none}
 
 /* ≤920px：單欄；疊紙仍成立，保留些微角度 */
@@ -1126,3 +1126,253 @@ footer.footer--deep .footer-social img{background:none;border-radius:0}
 
 /* 2026-11-23 追加七-補：≤680px hero 照片回歸滿版出血（蓋回追加七的 padding/圓角） */
 @media(max-width:680px){.hero .hero-photo{padding:0;border-radius:0}}
+
+/* ============================================================
+   2026-11-23 追加八：首頁 hero 重寫（滿版高度、字級、CTA、照片、點紋、導航）
+   只追加，不改上方既有規則；全站 .main-btn/.text-link 不可誤傷
+   ============================================================ */
+
+/* 點紋只留 hero；body 用純 cream（:1085 的 radial-gradient 會被這條覆蓋） */
+body{background-image:none}
+.hero{background-color:var(--sand);background-image:radial-gradient(color-mix(in srgb,var(--ink) 13%,transparent) 1px,transparent 1px);background-size:22px 22px}
+
+/* 滿版高度有上限，垂直置中 */
+.hero{min-height:clamp(600px,calc(100svh - var(--header-h) - 2px),860px);display:flex;flex-direction:column;justify-content:center}
+
+/* 桌機：欄寬、間距、內距 */
+@media(min-width:921px){
+  .hero-content{grid-template-columns:1.02fr .98fr;gap:56px}
+  .hero-left{padding:52px 0 48px}
+}
+
+/* 字 */
+.hero h1{font-size:clamp(34px,4.2vw,58px);line-height:1.16;letter-spacing:-0.02em;margin:0 0 18px;color:var(--deep);font-weight:900}
+.hero .hero-left > p:not(.hero-tag-lead){font-size:19px;font-weight:400;line-height:1.75;color:var(--ink);margin:0}
+
+/* 地名徽章：去虛線 */
+.hero-subtext{border-bottom:none}
+
+/* 兩顆 CTA 等高等重（52px、10px 圓角、同 --shadow-3） */
+.hero .main-btn,
+.hero .text-link{
+  min-height:52px;padding:0 24px;border-radius:10px;font-size:16px;font-weight:900;
+  box-shadow:var(--shadow-3);
+  display:inline-flex;align-items:center;
+}
+.hero .main-btn{background:var(--red);color:var(--on-red);border:2px solid var(--red)}
+.hero .text-link{background:var(--paper);color:var(--ink);border:2px solid var(--ink);text-decoration:none}
+.hero .main-btn:hover,.hero .text-link:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.hero .main-btn:active,.hero .text-link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+/* 照片卡：直角，保留摺角與疊紙 */
+.hero-media{max-width:560px}
+.hero .hero-photo{padding:12px 12px 0;border-radius:0}
+
+/* 當前頁導航 = 砂底紅字、hover = highlight 墨字、左右內距 10px */
+.header nav a[aria-current="page"]{color:var(--red);background:var(--sand);border-color:var(--ink);border-width:2px;border-style:solid;padding-inline:10px;box-shadow:var(--shadow-1)}
+.header nav a:not([aria-current="page"]):hover,
+.header nav a:not([aria-current="page"]):focus-visible{background:var(--highlight);border-color:var(--ink);color:var(--ink);box-shadow:var(--shadow-1);transform:translate(-1px,-1px)}
+
+/* 桌機隱藏 hero 營業狀態晶片（header 已有一顆） */
+@media(min-width:921px){.hero .open-now--hero{display:none}}
+
+/* ============================================================
+   2026-11-23 追加九：921–1100px hero-facts 2 欄（第 3 項跨欄）
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(min-width:921px) and (max-width:1100px){
+  .hero-facts{grid-template-columns:1fr 1fr;width:100%}
+  .hero-facts li{font-size:15px;padding:8px 12px}
+  .hero-facts li:nth-child(3){grid-column:1/-1;border-inline-start:0;border-block-start:1px dashed var(--dash);font-size:14px}
+  .hero-facts li+li{border-inline-start:1px dashed var(--dash)}
+}
+
+/* ============================================================
+   2026-11-23 追加十：hero CTA hover 受 reduced-motion 管制
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  .hero .main-btn,
+  .hero .text-link{transform:none;transition:none}
+}
+
+/* ============================================================
+   2026-11-23 追加十一：hero 點紋在 forced-colors 下關閉
+   只追加，不改上方既有規則
+   ============================================================ */
+@media (forced-colors: active){
+  .hero{background-image:none}
+}
+
+/* ============================================================
+   2026-11-23 追加十二：頁尾快速導覽手機改 2 欄（移除既有 3 欄死規則）
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(max-width:680px){
+  footer.footer--deep .footer-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:0 12px}
+  footer.footer--deep .footer-nav a{padding:12px 6px;min-height:44px}
+}
+
+/* ============================================================
+   2026-11-23 追加十三：QR 卡片留白與作用域
+   footer＝88 白卡（內圖 80）、visit 資訊卡＝144 正方形＋2px 墨框
+   只追加，不改上方既有規則；88px 規則一律加 footer 前綴，
+   否則 visit 的 .footer-social 也會被鎖成 88 而把 144 的圖壓成直條
+   ============================================================ */
+
+/* footer：88 白卡、內圖 80（只作用於深色頁尾） */
+footer.footer--deep .footer-social>a{width:88px;height:88px;padding:4px}
+footer.footer--deep .footer-social img{width:80px;height:80px}
+
+/* visit 資訊卡：不留白卡（紙白卡上看不見），144 正方形＋2px 墨框 */
+.ig-qr--lg{width:144px;height:144px;padding:0;background:transparent;border:0;box-shadow:none}
+.ig-qr--lg img,
+.ig-qr--lg.line-qr img{
+  width:144px;height:144px;max-width:144px;
+  border:2px solid var(--ink);border-radius:4px;background:var(--paper);
+}
+
+/* ============================================================
+   2026-11-23 追加十五：統一按鈕三態動畫（靜態 4px → hover 6px → active 2px）
+   依 AGENTS.md「主按鈕靜態 4px、hover 6px、active 2px」
+   修正 hero CTA 靜態誤用 shadow-3(6px)（永遠像 hover 的 bug）
+   只追加，不改上方既有規則
+   ============================================================ */
+
+/* 主按鈕群：靜態陰影統一 4px */
+.main-btn,.outline-btn,.header-cta{box-shadow:var(--shadow-2)}
+
+/* hero 兩顆 CTA：靜態 4px、補 transition、hover/focus 浮起 6px、active 按壓 2px */
+.hero .main-btn,
+.hero .text-link{
+  box-shadow:var(--shadow-2);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s cubic-bezier(.34,1.56,.64,1);
+}
+.hero .main-btn:hover,.hero .main-btn:focus-visible,
+.hero .text-link:hover,.hero .text-link:focus-visible{
+  transform:translate(-2px,-2px);
+  box-shadow:var(--shadow-3);
+}
+.hero .main-btn:active,
+.hero .text-link:active{transform:translate(2px,2px);box-shadow:var(--shadow-1)}
+
+/* base .text-link（全站僅 hero 使用）：補齊三態，與 main-btn 同語言 */
+.text-link{
+  box-shadow:var(--shadow-2);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s cubic-bezier(.34,1.56,.64,1);
+}
+.text-link:hover,.text-link:focus-visible{transform:translate(-2px,-2px);box-shadow:var(--shadow-3)}
+.text-link:active{transform:translate(2px,2px);box-shadow:var(--shadow-1)}
+
+/* ============================================================
+   2026-11-23 追加十六：導覽貼紙動畫納入同一套語言
+   補上 transition（原本完全沒有 → hover/切頁瞬間跳變，這就是截圖「不正常」的主因）
+   當前頁靜態貼紙 hover 也抬升、按下也回彈；非當前頁沿用既有 highlight 貼紙
+   只追加，不改上方既有規則
+   ============================================================ */
+.header nav a{
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),
+             box-shadow .2s cubic-bezier(.34,1.56,.64,1),
+             background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+@media(hover:hover){
+  /* 當前頁：抬起（比非當前頁高 1 階，因為它靜態就有 shadow-1） */
+  .header nav a[aria-current="page"]:hover,
+  .header nav a[aria-current="page"]:focus-visible{transform:translate(-1px,-1px);box-shadow:var(--shadow-2)}
+  /* 所有導覽項：按下回彈 */
+  .header nav a:active{transform:translateY(1px);box-shadow:none;transition-duration:.08s}
+}
+
+/* ============================================================
+   2026-11-23 追加十八：按鈕 active 只往下壓（避免平移推開鄰近按鈕）
+   原因：translate(2px,2px) 的 X 軸右移會讓並排按鈕（hero CTA、導覽貼紙）
+        看起來被「推開」，點擊後版面晃動感不順。改為單軸向下，
+        保留「按下去」的物理隱喻，不碰觸鄰居。
+   只追加，不改上方既有規則
+   ============================================================ */
+.hero .main-btn:active,
+.hero .text-link:active{transform:translateY(2px);box-shadow:var(--shadow-1)}
+.text-link:active{transform:translateY(2px);box-shadow:var(--shadow-1)}
+
+/* ============================================================
+   2026-11-23 追加十七：減少動態統一名單（合併分散的 reduced-motion）
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  .main-btn,.outline-btn,.header-cta,.text-link,
+  .hero .main-btn,.hero .text-link,
+  .header nav a{transition:none;transform:none}
+}
+
+/* ============================================================
+   2026-11-23 追加十九：全站互動元件「純垂直抬起／按下，不碰水平軸」
+   hover/focus 僅 translateY 往上（不動 X）→ 不推開鄰居；active 僅 translateY 往下。
+   主要變化是硬陰影：rest 4px（主按鈕）/ 無（晶片、導覽、開鍋）
+   → hover/focus 陰影加深；active 陰影變淺或移除。
+   主按鈕 rest 保留 var(--shadow-2)（4px，AGENTS.md 規定）
+   curve: cubic-bezier(.4,0,.2,1) 無回彈，140ms。
+   導覽：padding-inline 統一 10px（已在舊規則，保留），切換當前頁不撐寬。
+   只追加／替換，不改已 commit 的舊規則
+   ============================================================ */
+
+/* 1) 主按鈕群：rest 4px；hover/focus 抬起 -2px + 6px；active 按下 +2px + 2px */
+.main-btn,.outline-btn,.header-cta{
+  box-shadow:var(--shadow-2);
+  transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1);
+}
+.main-btn:hover,.outline-btn:hover,.header-cta:hover,
+.main-btn:focus-visible,.outline-btn:focus-visible,.header-cta:focus-visible{
+  transform:translateY(-2px);box-shadow:var(--shadow-3);
+}
+.main-btn:active,.outline-btn:active,.header-cta:active{
+  transform:translateY(2px);box-shadow:var(--shadow-1);
+}
+
+/* 2) hero 兩顆 CTA：同主按鈕語言（52px、10px 圓角、等高等重保留） */
+.hero .main-btn,.hero .text-link{
+  box-shadow:var(--shadow-2);
+  transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1);
+}
+.hero .main-btn:hover,.hero .main-btn:focus-visible,
+.hero .text-link:hover,.hero .text-link:focus-visible{
+  transform:translateY(-2px);box-shadow:var(--shadow-3);
+}
+.hero .main-btn:active,.hero .text-link:active{
+  transform:translateY(2px);box-shadow:var(--shadow-1);
+}
+
+/* 3) base .text-link（全站僅 hero 使用） */
+.text-link{
+  box-shadow:var(--shadow-2);
+  transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1);
+}
+.text-link:hover,.text-link:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-3)}
+.text-link:active{transform:translateY(2px);box-shadow:var(--shadow-1);}
+
+/* 4) 分類捷徑（menu/pot/guide）：rest 無陰影；hover -1px + 6px；active +1px + 2px */
+.menu-shortcut a{box-shadow:none;transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1)}
+.menu-shortcut a:hover,.menu-shortcut a:focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-3)}
+.menu-shortcut a:active{transform:translateY(1px);box-shadow:var(--shadow-1)}
+.menu-shortcut a.is-current:hover,.menu-shortcut a.is-current:focus-visible{transform:none;box-shadow:none}
+
+/* 5) visit 聯絡 chips：rest 無陰影；hover -1px + 6px + 背景色；active +1px + 2px */
+.contact-chips a{box-shadow:none;transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1),background-color .14s ease,color .14s ease}
+.contact-chips a:hover,.contact-chips a:focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-3)}
+.contact-chips a:active{transform:translateY(1px);box-shadow:var(--shadow-1)}
+
+/* 6) 開鍋狀態晶片：rest 無陰影；hover -1px + 2px；active +1px + 0 */
+a.open-now--head{box-shadow:none;transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1)}
+a.open-now--head:hover,a.open-now--head:focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-1)}
+a.open-now--head:active{transform:translateY(1px);box-shadow:none}
+
+/* 7) 導覽：左右內距統一 10px，當前頁不再比其他項目寬；hover/focus/active 僅垂直位移 + 陰影 */
+@media(min-width:921px){
+  .header nav a{padding-inline:10px;transition:transform .14s cubic-bezier(.4,0,.2,1),box-shadow .14s cubic-bezier(.4,0,.2,1)}
+  .header nav a[aria-current="page"]{box-shadow:var(--shadow-1)}
+  .header nav a[aria-current="page"]:hover,
+  .header nav a[aria-current="page"]:focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-2)}
+  .header nav a[aria-current="page"]:active{transform:translateY(1px);box-shadow:var(--shadow-1)}
+  .header nav a:not([aria-current="page"]):hover,
+  .header nav a:not([aria-current="page"]):focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-1)}
+  .header nav a:not([aria-current="page"]):active{transform:translateY(1px);box-shadow:none}
+}
