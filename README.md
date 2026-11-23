@@ -3,7 +3,7 @@
 嘉義縣民雄鄉的個人小火鍋店官網，手寫靜態網站（HTML ＋ 單一 `styles.css`），
 沒有建置流程與套件管理，部署在 GitHub Pages。
 
-- 線上網址：https://2026xenia.github.io/guoxu-hotpot/
+- 線上網址：https://guoxuhotpot.github.io/guoxu-hotpot/
 - 頁面：`index.html` 首頁、`menu.html` 菜單、`pot.html` 鍋品、`guide.html` 吃鍋指南、`visit.html` 交通
 - 價位：170 元起，多數 190
 - 地址：621嘉義縣民雄鄉三興村神農路186巷2-7號
