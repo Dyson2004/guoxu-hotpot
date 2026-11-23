@@ -1083,3 +1083,46 @@ footer.footer--deep .footer-col p.footer-phone{color:var(--yellow);font-size:15p
    只追加，不改上方既有規則
    ============================================================ */
 .hero{background-color:var(--sand);background-image:radial-gradient(var(--dash) 0.75px,transparent 0.75px);background-size:24px 24px}
+
+/* ============================================================
+   2026-11-23 追加五：頁尾快速導覽左緣對齊、QR 白卡等寬
+   只追加，不改上方既有規則
+   ============================================================ */
+footer.footer--deep .footer-nav{display:flex;flex-direction:column;gap:0}
+footer.footer--deep .footer-nav a{padding:0;min-height:44px;display:flex;align-items:center}
+footer.footer--deep .footer-nav a.nav-sub{margin-inline-start:0}
+footer.footer--deep .footer-social>a,.ig-qr--lg{justify-content:center;background:var(--on-red);border-radius:4px}
+footer.footer--deep .footer-social>a{width:80px;height:80px}
+.ig-qr--lg{width:144px;height:144px}
+footer.footer--deep .footer-social img{background:none;border-radius:0}
+
+/* ============================================================
+   2026-11-23 追加六：當前頁導覽改為常駐貼紙（取消 inset 殘影底線）
+   只追加，不改上方既有規則
+   ============================================================ */
+.header nav a[aria-current="page"]{color:var(--red);background:var(--sand);border-color:var(--ink);box-shadow:var(--shadow-1)}
+@media(max-width:920px){
+  .header nav a[aria-current="page"]:hover,
+  .header nav a[aria-current="page"]:focus-visible{background:var(--sand);border-color:var(--ink);box-shadow:var(--shadow-1)}
+}
+
+/* ============================================================
+   2026-11-23 追加七：首頁 hero 第一屏滿版＋樣式對齊 _1
+   只追加，不改上方既有規則；hero 點紋背景與 .hero-facts 不動
+   ============================================================ */
+.hero{min-height:calc(100vh - var(--header-h))}
+.hero{min-height:calc(100svh - var(--header-h) - 2px);display:flex;flex-direction:column;justify-content:center}
+@media(min-width:921px){
+  .hero-content{grid-template-columns:1.08fr .92fr;gap:48px}
+  .hero-left{padding:40px 0 36px}
+}
+.hero h1{font-size:clamp(34px,3.8vw,48px);line-height:1.22;letter-spacing:-1px;margin:0 0 16px;color:var(--deep)}
+.hero .hero-left > p:not(.hero-tag-lead){font-size:18px;font-weight:500;line-height:1.9;color:var(--note)}
+.hero .hero-tag-lead{margin:0 0 12px;gap:12px}
+.hero .hero-links{gap:14px;margin-top:24px}
+.hero .main-btn{border-radius:var(--radius-lg);padding:14px 22px;box-shadow:var(--shadow-2)}
+.hero .text-link{background:var(--sand);color:var(--ink);text-decoration:none;border:2px solid var(--ink);border-radius:var(--radius-lg);padding:12px 18px;box-shadow:var(--shadow-1);font-weight:900;font-size:15px}
+.hero .hero-photo{padding:14px 14px 0;border-radius:var(--radius-lg)}
+
+/* 2026-11-23 追加七-補：≤680px hero 照片回歸滿版出血（蓋回追加七的 padding/圓角） */
+@media(max-width:680px){.hero .hero-photo{padding:0;border-radius:0}}
