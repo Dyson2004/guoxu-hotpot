@@ -1419,3 +1419,40 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
 @media(prefers-reduced-motion:reduce){
   a.board-row,a.board-row:hover,a.board-row:focus-visible,a.board-row:active{transform:none;transition:none}
 }
+
+/* ============================================================
+   2026-11-24 追加二十三：首頁鍋物卡整卡可點（單一 tab stop、整卡焦點）
+   ============================================================ */
+/* h3 a 的 ::after 覆蓋整張 .pot-item（picture+text），照片、價格、空白處都屬於連結 */
+.pot-item h3 a::after{
+  content:"";position:absolute;inset:0;z-index:1
+}
+/* .pot-picture{overflow:hidden} 攔住絕對定位；容器放寬 */
+.pot-item{overflow:visible}
+/* 圓角標籤 z-index:2 會攔住點擊，pointer-events 穿透 */
+.circle-label{pointer-events:none}
+/* 全域 a:focus-visible 的雙重紅框（鍋名 + 整卡）：關掉鍋名，改由整卡 focus-within 畫 */
+.pot-item h3 a:focus-visible{outline:none}
+.pot-item:focus-within{outline:3px solid var(--red);outline-offset:2px}
+/* forced-colors 下焦點仍可見 */
+@media(forced-colors:active){
+  .pot-item:focus-within{outline-color:CanvasText}
+}
+
+/* ============================================================
+   2026-11-24 追加二十四：Hero reflow（事實帶可換行、CTA 可 wrap）
+   ============================================================ */
+
+/* 事實帶 li：允許換行，避免 overflow:hidden 裁切長文字
+   正常寬度維持 inline 並排；空間不足才換行 */
+.hero-facts li{
+  white-space:normal;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+/* 外殼 max-width 防止撐開父容器造成水平捻動 */
+.hero-facts{ max-width:100% }
+
+/* CTA 列：允許換成兩行，不超出 Hero、不裁字 */
+.hero .hero-links{ flex-wrap:wrap }
+.hero .hero-links > *{ max-width:100% }
