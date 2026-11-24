@@ -855,6 +855,7 @@ html{--header-h:64px}
    單條紙白盒，項間 1px --dash 虛線分隔，無獨立 chip
    桌機：3 款項並排，手機：雙欄第 3 項跨欄帶底虛線
    ============================================================ */
+/* 2026-11-24 登記：此為死規則，index.html 已無 .hero-facts 元素（2026-11-24 改由 .hero-ribbon 承接）；以下各處 .hero-facts 規則僅存史錄，勿引用、勿以此為例 */
 
 /* 桌機：單條紙白事實帶、項目排列與間距 */
 .hero h1{margin-bottom:12px}
@@ -1509,3 +1510,95 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
    2026-11-24 追加二十六：#hours 資訊列與表格頂端對齊
    ============================================================ */
 #hours .info-rows{margin-top:0}
+
+/* ============================================================
+   2026-11-24 追加二十七：首頁海報式首屏（底部四格資訊帶）
+   1) 拆掉 .hero 的 860px 上限，首屏撐滿視窗、帶子貼底
+   2) 開鍋晶片恢復靜態硬陰影
+   3) 右欄疊紙換芥末黃、照片改 16:10
+   4) .hero-facts 與 .hero-photo__price 已從 HTML 移除，本檔舊規則留待除役
+   只追加，不改上方既有規則
+   ============================================================ */
+
+/* 1) 首屏撐滿視窗 */
+.hero{
+  min-height:calc(100svh - var(--header-h) - 2px);
+  justify-content:flex-start;
+}
+.hero-content{flex:1 0 auto}
+
+/* 2) 開鍋晶片：恢復靜態硬陰影＋下拉暗示 */
+.hero .open-now--hero{box-shadow:var(--shadow-1)}
+.hero .open-now--hero:hover,
+.hero .open-now--hero:focus-visible{box-shadow:var(--shadow-2)}
+.hero .open-now--hero:active{box-shadow:none}
+.open-now__arrow{font-size:12px;line-height:1;opacity:.85}
+
+/* 3) 右欄：左上疊紙換芥末黃、照片改 16:10（裁剪由 object-fit 吸收） */
+.hero-media::before{background:var(--yellow)}
+.hero .hero-photo picture img{
+  aspect-ratio:16/10;
+  object-fit:cover;
+}
+
+/* 4) 底部滿版四格資訊帶 */
+.hero-ribbon{
+  background:var(--ink);
+  color:var(--on-red);
+  margin-top:28px;
+}
+.hero-ribbon__list{
+  list-style:none;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.hero-ribbon__list li{
+  padding:18px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.hero-ribbon__list li+li{border-inline-start:1px dashed var(--dash)}
+.hero-ribbon__list strong{
+  font-size:22px;
+  font-weight:900;
+  line-height:1.2;
+  color:var(--yellow);
+  font-variant-numeric:tabular-nums;
+}
+.hero-ribbon__list span{
+  font-size:13px;
+  line-height:1.5;
+  color:var(--sand);
+}
+
+/* 5) 平板：不再強制撐高，帶子改 2×2 */
+@media(max-width:920px){
+  .hero{min-height:auto}
+  .hero-left{padding:24px 0 28px}
+  .hero-ribbon{margin-top:20px}
+  .hero-ribbon__list{grid-template-columns:repeat(2,1fr)}
+  .hero-ribbon__list li{padding:14px 16px}
+  .hero-ribbon__list li:nth-child(3){border-inline-start:0}
+  .hero-ribbon__list li:nth-child(n+3){border-block-start:1px dashed var(--dash)}
+}
+
+/* 6) 手機：照片滿版出血、圖說內距回正、帶子與照片無縫 */
+@media(max-width:680px){
+  .hero-left{padding:22px 0 24px}
+  .hero .hero-photo{padding:0;margin:0 -22px}
+  .hero-photo figcaption{padding:12px 22px 14px}
+  .hero-ribbon{margin-top:0}
+  .hero-ribbon__list{width:100%}
+  .hero-ribbon__list li{padding:13px 16px}
+  .hero-ribbon__list strong{font-size:19px}
+}
+
+/* 7) 強制色彩模式：虛線改實線 */
+@media(forced-colors:active){
+  .hero-ribbon__list li+li{border-inline-start:1px solid CanvasText}
+}
+@media(forced-colors:active) and (max-width:920px){
+  .hero-ribbon__list li:nth-child(n+3){border-block-start:1px solid CanvasText}
+}
