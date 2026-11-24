@@ -34,7 +34,7 @@ a.board-row:hover,a.board-row:focus-visible{background:var(--highlight)}
 .open-now{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--ink);background:var(--paper);padding:9px 16px;margin:0 0 22px;font-size:14px;font-weight:900}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--dot-idle);display:inline-block;flex:0 0 auto}
 .open-now.is-open .dot{background:var(--green)}
-/* 首屏不重複營業時間：動態狀態只在 header .open-now--head，完整逐日表在下方 */
+/* 營業狀態：首頁顯示於 hero（.open-now--hero），內頁顯示於 header（.open-now--head），完整逐日表在下方 */
 ::selection{background:var(--yellow);color:var(--deep)}
 
 /* 營業時間表 */
@@ -1173,8 +1173,7 @@ body{background-image:none}
 .header nav a:not([aria-current="page"]):hover,
 .header nav a:not([aria-current="page"]):focus-visible{background:var(--highlight);border-color:var(--ink);color:var(--ink);box-shadow:var(--shadow-1);transform:translate(-1px,-1px)}
 
-/* 桌機隱藏 hero 營業狀態晶片（header 已有一顆） */
-@media(min-width:921px){.hero .open-now--hero{display:none}}
+
 
 /* ============================================================
    2026-11-23 追加九：921–1100px hero-facts 2 欄（第 3 項跨欄）
@@ -1375,4 +1374,25 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
   .header nav a:not([aria-current="page"]):hover,
   .header nav a:not([aria-current="page"]):focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-1)}
   .header nav a:not([aria-current="page"]):active{transform:translateY(1px);box-shadow:none}
+}
+
+/* ============================================================
+   2026-11-24 追加二十：當前頁導覽貼紙改紅底奶油字（桌機）
+   Image 1（砂底紅字）→ Image 2（紅底奶油字）
+   只換配色；尺寸／位移／陰影層級與 hover 語彙不動
+   手機 ≤920px 維持砂底紅字，不動
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(min-width:921px){
+  .header nav a[aria-current="page"]{
+    color:var(--on-red);
+    background:var(--red);
+    border-color:var(--ink);
+  }
+  .header nav a[aria-current="page"]:hover,
+  .header nav a[aria-current="page"]:focus-visible{
+    color:var(--on-red);
+    background:var(--red);
+    border-color:var(--ink);
+  }
 }
