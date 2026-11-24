@@ -301,7 +301,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 **照片帶 4px 陰影的鍋物卡本體不加陰影**（`.pot-card`）——照片自帶深度，再疊會過重；訪問卡／地圖／看板等無照片者用 6px。
 
-- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（`--yellow` 底、`--deep` 字、2px 墨棕邊、7° 微傾、字重 900）。
+- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（`--yellow` 底、`--deep` 字、2px 墨棕邊、7° 微傾、字重 900）。 **2026-11-24 起整卡可點**：既有 h3 a 擴展 ::after 覆蓋整張 .pot-item（含照片、價格、描述），單一 tab stop、單一連結名稱；.pot-item{overflow:visible} 讓絕對定位生效、.circle-label{pointer-events:none} 避免攔截點擊；焦點由 .pot-item:focus-within 畫整卡紅框（關掉 h3 a:focus-visible 的雙重框），orced-colors 下用 CanvasText 保持可見。
 - **鍋物卡照片** `.pot-photo`（pot.html）：2px 墨棕邊＋4px 硬陰影（var(--ink)）、aspect-ratio 1440/1053、object-fit cover；內文排列不受影響。
 - **首屏 hero 吉祥物**（2026-11-14，**2026-11-18 退役**）：`<picture>` 先給 `assets/mascot-hero.webp`（377×391、約 18KB）＋PNG fallback `assets/mascot-hero.png`；`.hero-right picture{display:contents}` 讓 `<img>` 仍是 `.hero-right` 的 flex item，原 `.mascot` 寬度、rotate(-4deg)、drop-shadow 不變；`fetchpriority="high"` 保留在 img（首屏不 lazy）。**2026-11-18 起首頁 hero 不再使用大吉祥物與 `.hero-right`／`.hero-arc`**：改由照片卡 `.hero-photo` 領銜（見下節），吉祥物只在卡右下角以 78px 小貼紙出現（紙白底＋2px 框＋2px 硬陰影、`−6°`，非 `drop-shadow`）。
 - **吉祥物對外圖**（2026-11-14）：`index.html` `.about-image`（377×391）與 `guide.html` `.guide-lead`（188×195）同一張改用 `mascot-transparent.png`＋`mascot-transparent.webp`（377×391，webp 21,416B／png 131,872B），皆為 `<picture>`＋WebP `<source>`、PNG 作 `<img src>` fallback；`.about-image picture,.guide-lead picture{display:contents}` 沿用 hero 的做法，讓 `<img>` 繼續當版面盒，尺寸與間距不變。
