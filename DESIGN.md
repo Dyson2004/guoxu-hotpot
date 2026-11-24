@@ -23,10 +23,10 @@ colors:
 typography:
   display:
     fontFamily: "'Noto Sans TC', sans-serif"
-    fontSize: "clamp(32px, 4.8vw, 56px)"
+    fontSize: "clamp(34px, 4.2vw, 58px)"
     fontWeight: 900
-    lineHeight: 1.22
-    letterSpacing: "-1.5px"
+    lineHeight: 1.16
+    letterSpacing: "-0.02em"
   headline:
     fontFamily: "'Noto Sans TC', sans-serif"
     fontSize: "clamp(30px, 3.6vw, 48px)"
@@ -86,9 +86,9 @@ components:
     textColor: "{colors.on-red}"
     rounded: "{rounded.md}"
     padding: "15px 23px"
-    transform: "translate(-2px, -2px)" # 懸停／焦點浮起
+    transform: "translateY(-2px)" # 懸停／焦點浮起（只動 Y，2026-11-24）
     boxShadow: "6px 6px 0 {colors.ink}" # hover 6px（2026-11-21）
-    # active：transform 改為 translate(2px, 2px)、box-shadow 縮至 2px 2px 0 {colors.ink}
+    # active：transform 改為 translateY(2px)、box-shadow 縮至 2px 2px 0 {colors.ink}
   button-outline:
     backgroundColor: "transparent"
     textColor: "currentColor"
@@ -208,10 +208,10 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 **Character:** 單一字體靠重量說話。900 是招牌字體，400 只作內文，700 作次標籤。價格用 tabular-nums 對齊，讓價目掃讀像數字一樣整齊。
 
 ### Hierarchy
-- **Display** (900, clamp(32px, 4.8vw, 56px), 1.22, -1.5px): 首屏大標題，含地名關鍵字，不為大字犧牲 SEO。
+- **Display** (900, clamp(34px, 4.2vw, 58px), 1.16, -0.02em): 首屏大標題，含地名關鍵字，不為大字犧牲 SEO（58px 上限，2026-11-24）。
 - **Headline** (900, clamp(30px, 3.6vw, 48px), 1.35, -1.3px): 區塊標題與內頁 h1 副級。
 - **Title** (900, 24px, 1.4): 卡片標題如鍋物名稱。
-- **Body** (400, 16px, 1.9–2.0): 16px（內文唯一正文級；17px 僅 hero p），行高偏鬆，適合手機長時間閱讀。
+- **Body** (400, 16px, 1.9–2.0): 16px（內文唯一正文級；hero 導言 19px/400 `--ink` 為首屏特例，2026-11-24），行高偏鬆，適合手機長時間閱讀。
 - **Label** (900, 13px, 1.4, 2px): 小標籤如「今日菜單」「推薦」。
 
 ### 例外（登記，2026-11-13）
@@ -225,18 +225,18 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 ## Layout
 
-容器寬 `min(1140px, calc(100% - 44px))` 居中。桌面多為雙欄（首屏 1fr/1.06fr（2026-11-18 照片卡）、菜單 1fr/.86fr、關於 .8fr/1.1fr）與三欄鍋物格（repeat(3,1fr)，gap 22px）。區塊上下留白大（`.section` 84px，手機 64px；`.menu-page`／`.section-last` 例外維持），區塊標題以 2px 墨棕底線＋右側說明文字作分隔。首頁 hero 於 `<h1>` 前有地名徽章列 `.hero-tag-lead`（紅底 `.hero-subbadge`＋`--dash` 虛線底線 `.hero-subtext`）。斷點 1100px 先收窄頁首導覽間距（26px→18px），920px 收為單欄，680px 再壓字級與間距；頁首高度桌機 `min-height` 64px，920px 以下與 680px 以下 `min-height` 64px（logo 只留圖示、CTA 隱藏，見 Navigation）。錨點捲動留白只靠 `html` 的 `scroll-padding-top: calc(var(--header-h) + 14px)`（`section[id]`／`main[id]`／`#pot-nav` 的 `scroll-margin-top` 已歸零，避免雙重偏移），`--header-h` 64px，避免 sticky header 遮住標題。觸控目標最小 44px，價目與營業時間在關 JS 時仍完整可讀。
+容器寬 `min(1140px, calc(100% - 44px))` 居中。首頁 hero 為海報式第一屏：`min-height:clamp(600px, calc(100svh - var(--header-h) - 2px), 860px)`＋垂直置中（860px 上限，2026-11-24）。桌面多為雙欄（首屏 1.02fr/.98fr、菜單 1fr/.86fr、關於 .8fr/1.1fr）與三欄鍋物格（repeat(3,1fr)，gap 22px）。區塊上下留白大（`.section` 84px，手機 64px；`.menu-page`／`.section-last` 例外維持），區塊標題以 2px 墨棕底線＋右側說明文字作分隔。首頁 hero 於 `<h1>` 前有地名徽章列 `.hero-tag-lead`（紅底 `.hero-subbadge`；`.hero-subtext` 已無虛線底線，2026-11-24）。斷點 1100px 先收窄頁首導覽間距（26px→18px），920px 收為單欄，680px 再壓字級與間距；頁首高度桌機 `min-height` 64px，920px 以下與 680px 以下 `min-height` 64px（logo 只留圖示、CTA 隱藏，見 Navigation）。錨點捲動留白只靠 `html` 的 `scroll-padding-top: calc(var(--header-h) + 14px)`（`section[id]`／`main[id]`／`#pot-nav` 的 `scroll-margin-top` 已歸零，避免雙重偏移），`--header-h` 64px，避免 sticky header 遮住標題。觸控目標最小 44px，價目與營業時間在關 JS 時仍完整可讀。
 
 ## Elevation & Depth
 
-深度只來自硬陰影，沒有模糊、沒有漸層。陰影三級：徽章 2px、靜態按鈕與分類捷徑 4px、按鈕懸停與大面板（訪問卡・地圖・看板）6px；靜態卡片依層級可有 2–6px 硬陰影（鍋卡靜態無陰影、hover 才 6px），皆為不透明色塊偏移。按壓時元件向陰影方向平移（translate(2px,2px)），陰影縮至 2px，像紙板被壓下。主按鈕靜態 4px 硬陰影，懸停／焦點 6px，按壓 2px（2026-11-21）。
+深度只來自硬陰影，沒有模糊、沒有色彩漸層（`.hero` 點陣底紋是 1px 圓點圖案，不是色彩漸層，見登記）。陰影三級：徽章 2px、靜態按鈕與分類捷徑 4px、按鈕懸停與大面板（訪問卡・地圖・看板）6px；靜態卡片依層級可有 2–6px 硬陰影（鍋卡靜態無陰影、hover 才 6px），皆為不透明色塊偏移。互動位移只動 Y 軸（2026-11-24）：懸停／焦點向上抬起（主按鈕 `translateY(-2px)`、晶片與導覽 `translateY(-1px)`），按壓向下（主按鈕 `translateY(2px)`、晶片與導覽 `translateY(1px)`），不碰水平軸，避免推開鄰居；陰影同時 4→6→2 或 2→4→2，像紙板被壓下。主按鈕靜態 4px 硬陰影，懸停／焦點 6px，按壓 2px（2026-11-21）。
 
 ### Shadow Vocabulary
 - **徽章 2px** (`box-shadow: 2px 2px 0 var(--ink)`): 菜單徽章、開鍋狀態徽章、價目列（`.board-row`）、導覽貼紙 hover。
 - **元件 4px** (`box-shadow: 4px 4px 0 var(--ink)`): 靜態主按鈕（`.main-btn`／`.outline-btn`／`.header-cta`）、分類捷徑、價目列 hover。
 - **hover 6px** (`box-shadow: 6px 6px 0 var(--ink)`): 按鈕懸停／焦點、鍋卡 hover。
 - **面板 6px** (`box-shadow: 6px 6px 0 var(--ink)`): 地圖、訪問大卡、價目牌看板。
-- **頁首現行頁** (`box-shadow: inset 0 -2px 0 var(--red)`): 頁首導覽 aria-current 現行頁下劃線。
+- **頁首現行頁**（桌機 ≥921px `--shadow-1`）: `aria-current="page"` 為紅底奶油字貼紙（≤920px 砂底紅字），不是下劃線（2026-11-24）。
 
 ### 吉祥物輪廓陰影例外（2026-11-08 登記）
 首頁 Hero 大吉祥物是全站唯一使用 `filter: drop-shadow` 的元素（2026-11-18 起首頁 hero 已改為照片卡、無使用者，規則本身保留待未來獨立呈現），為 Hard-Shadow Rule 的明文例外：吉祥物是透明底 PNG，`drop-shadow` 能讓陰影貼著鍋體輪廓走；若改用 `box-shadow` 實色硬陰影會框出方形色塊、印在透明圖下變成「第二個鍋」，破壞原始視覺。規格：
@@ -260,18 +260,18 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 ### 2026-11-21 紙板新粗野主義對齊（_1 參考版，登記）
 - **Token**：`--radius-sm:6px`／`--radius-md:8px`／`--radius-lg:10px`；`--shadow-1/2/3` = 2/4/6px 實色偏移（--ink）。仍無 blur、無漸層。
-- **按鈕**：靜態 4px → hover/focus 6px＋translate(-2px,-2px) → active 2px＋translate(2px,2px)；`.main-btn` focus-visible 仍用 `--on-red` 內縮框。
-- **導覽貼紙**：`.header nav a` 6px 圓角＋2px 透明框；非現行頁 hover = `--sand` 底＋墨棕框＋2px 陰影＋位移 -1px；`aria-current="page"` 維持紅字＋inset 底線。
+- **按鈕**：靜態 4px → hover/focus 6px＋`translateY(-2px)` → active 2px＋`translateY(2px)`；`.main-btn` focus-visible 仍用 `--on-red` 內縮框（2026-11-24 移除水平位移）。
+- **導覽貼紙**：`.header nav a` 6px 圓角＋2px 透明框；非現行頁 hover = `--sand` 底＋墨棕框＋2px 陰影＋`translateY(-1px)`；`aria-current="page"` 桌機為 `--red` 底＋`--on-red` 字貼紙（≤920px 砂底紅字），非 inset 底線。
 - **區塊節奏**：`.section` 84px（≤680px 64px）、`.menu-section` 76px（≤680px 64px）；`.section.menu-page` 與 `.section.section-last` 例外以更高特異性保留。
-- **首頁 hero 徽章列**：`.hero-tag-lead`（`.hero-subbadge` 紅底 on-red 字 13px 900＋2px 框＋2px 陰影；`.hero-subtext` `--note` 字＋2px `--dash` 虛線底線）；`.hero-facts` 仍為單條紙白事實帶（三項、無價格、非獨立 chip）。
-- **價標與價目列**：`.circle-label` 改 `--yellow` 底 `--deep` 字；`.board-row` 紙白卡（2px 框＋2px 陰影＋12px 14px 內距＋10px 下距），hover 裝置上 translate(-1px,-1px)＋4px。
+- **首頁 hero 徽章列**：`.hero-tag-lead`（`.hero-subbadge` 紅底 on-red 字 13px 900＋2px 框＋2px 陰影；`.hero-subtext` `--note` 字，2026-11-24 起無虛線底線）；`.hero-facts` 仍為單條紙白事實帶（三項、無價格、非獨立 chip）。
+- **價標與價目列**：`.circle-label` 改 `--yellow` 底 `--deep` 字；`.board-row` 紙白卡（2px 框＋2px 陰影＋12px 14px 內距＋10px 下距），hover 裝置上 `translateY(-1px)`＋4px、active `translateY(1px)`＋2px（2026-11-24 改純垂直）。
 - **鍋卡 hover**：`@media(hover:hover)` 下 `translateY(-3px)`＋6px；靜態無陰影。
 - **FAQ**：`.faq-item summary` 圓角 8px；`[open]` 時下緣歸零。
 - **深色頁尾** `footer.footer--deep`：四欄（1.25fr/1fr/1fr/1fr、gap 40px；≤920px 2 欄、≤680px 1 欄），`--ink` 底；文字只用 `--on-red`／`--sand`／`--yellow`／`--line`（**禁用 `--note`**）；`.footer-heading` `--yellow` 14px 900＋2px `--line` 底線；底部兩行 `.footer-note`。404 維持原本紙白簡化頁尾。
 
 ### Buttons
 - **Shape:** 圓角 8px（`--radius-md`），2px 描邊
-- **Primary:** 鍋湯深紅底＋反紅奶白字（var(--on-red)），padding 15px 23px，字重 900；靜態 4px 硬陰影（2026-11-21）；懸停／焦點 6px＋translate(-2px,-2px)，按壓 2px＋translate(2px,2px)
+- **Primary:** 鍋湯深紅底＋反紅奶白字（var(--on-red)），padding 15px 23px，字重 900；靜態 4px 硬陰影（2026-11-21）；懸停／焦點 6px＋`translateY(-2px)`，按壓 2px＋`translateY(2px)`（2026-11-24 只動 Y 軸）
 - **404 例外：** 404／錯誤頁唯一紅主按鈕指向 `index.html`（錯誤頁最普適的恢復路徑）；其餘頁紅主按鈕一律指向向前動作。
 - **Hover / Focus:** 輕微位移＋硬陰影；焦點外框 3px，紅底上改用奶油色內縮框確保可見
 - **Secondary / Ghost:** 描邊按鈕用 currentColor 描邊，深紅底區用米色描邊；頁首 CTA 為白底紅字描邊版
@@ -314,17 +314,17 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 首頁 hero 右欄自 2026-11-18 起由「大吉祥物」改為**紙邊照片卡**，是實拍照片元件在首屏的延伸，不是新元件家族。
 
-- **外殼**：`<figure class="hero-photo">`，紙白襯邊 `padding:10px 10px 0`、`3px` 墨棕框、`6px 6px 0 var(--brown-deep)` 硬陰影、`rotate(1deg)`（>920px 桌機；≤920px 起 `transform:none`，2026-11-18 追加五）；`width:100%`、`max-width:620px`；桌機靠右由 `.hero-media{justify-self:end}` 決定；本條目 `.hero-photo` 的 `justify-self:end`（styles.css:832）為遺留死宣告，與 styles.css 現況一致，不動舊規則。傾斜在容器上（>920px 桌機），文字與 figcaption 不傾斜。
+- **外殼**：`<figure class="hero-photo">`，紙白襯邊 `padding:12px 12px 0`（≤680px 為 0）、`3px` 墨棕框、`6px 6px 0 var(--brown-deep)` 硬陰影、`rotate(1deg)`（>920px 桌機；≤920px 起 `transform:none`，2026-11-18 追加五）；`width:100%`、桌機 `max-width:560px`（`.hero-media` 同寬）；桌機靠右由 `.hero-media{justify-self:end}` 決定；本條目 `.hero-photo` 的 `justify-self:end`（styles.css:832）為遺留死宣告，與 styles.css 現況一致，不動舊規則。傾斜在容器上（>920px 桌機），文字與 figcaption 不傾斜。
 - **照片**：單一 `assets/og-image.jpg`（67,944B、1200×630 實拍生鮮食材配置），直接 `<img>`，**不另給 WebP**——og-image.webp 重壓後 87,646B 反而比原 JPEG 大，對 LCP 是退步，HTML 沒有 `<source>`；`fetchpriority="high"`、`decoding="async"`、**不 lazy**（首屏）；`img` 為 `width:100%;height:auto;display:block`，滿版貼齊紙邊。
 - **左上價標 `.hero-photo__price`**：`--yellow` 底＋`--deep` 字、`2px` 墨棕框＋`2px 2px 0 var(--ink)` 硬陰影、`−6°`、`tabular-nums`、15px／900、`white-space:nowrap`；內容「170 元起・多數 190」。**hero 唯一價格來源**（`hero-facts` 已於 2026-11-18 改為無價格的單條紙白事實帶，見下節）。
 - **右下吉祥物貼紙 `.hero-photo__mascot`**：`mascot-hero-148.png`（`74w`／`148w` srcset、`sizes="78px"`）顯示 78px；紙白底＋`2px` 墨棕框＋`2px 2px 0 var(--ink)` 硬陰影、圓角 4px、`−6°`；`alt=""`（裝飾）、`loading="lazy"`。
 - **圖說**：`<figcaption>` 在照片下方襯邊內，13px／`--note`／1.7 行高，文案「照片為入鍋前的生鮮食材配置。」（照 `PRODUCT.md` 文案紅線：不得寫成成品湯照）。
-- **桌機版面**：`.hero` 維持沙米底並加 `2px` 墨棕下框（與下方區塊切開）；`.hero-content` 改 `grid-template-columns:1fr 1.06fr`、`gap:52px`（文字 1／照片 1.06）。
+- **桌機版面**：`.hero` 維持沙米底並加 `2px` 墨棕下框（與下方區塊切開）；`.hero-content` 改 `grid-template-columns:1.02fr .98fr`、`gap:56px`（文字 1.02／照片 .98，2026-11-23）。
 - **≤920px**：`.hero-content` 收單欄、hero-left 文字在前、`.hero-photo` 在後（無 order）；`.hero-media{justify-self:stretch;max-width:none}`（疊紙成對傾斜在單欄也不再成立，疊紙改 `rotate(-0.8deg)`，`translate(-7px,9px)` 不變）；`.hero-photo` `width:100%`＋`max-width:none`（滿版撐欄，2026-11-18 追加五）；取消傾斜（`transform:none`，2026-11-18 追加五，全 ≤920px 區間生效含 ≤680px）；681–920px 照片底距 `margin:0 0 28px`（2026-11-18 追加五）；≤680px 由既有滿版出血規則接手（`margin:0 -22px 24px`、`padding:0`、上下 `2px` 墨棕框、`box-shadow:none`）。
 - **≤680px**：照片左右出血滿版（`margin:0 -22px 24px`、`width:calc(100% + 44px)`，不用 `100vw`，避免捲軸寬差造成水平捲動）；拆掉紙邊與外框陰影，只留上下 `2px` 墨棕框；價標改釘在照片內側（`top:12px`／`left:14px`、14px 字）；吉祥物貼紙縮為 60px。
-- **疊紙 `.hero-media`（2026-11-18）**：`<figure class="hero-photo">` 外包 `<div class="hero-media">`（`.hero-left` 不動、figure 內容不動）；`.hero-media` 為疊紙的定位錨點與左下露邊的參考框（`position:relative`、`width:100%`、`max-width:620px`、桌機 `justify-self:end`）。疊紙 `.hero-media::before`：`--board` 紙底＋2px 墨棕框、`rotate(-1.2deg) translate(-7px,9px)`、**左下露邊**、`z-index:0`（`.hero-photo` 以 `z-index:1` 壓在疊紙上）；`.hero-photo` 保留 `rotate(1deg)`（>920px 桌機），兩張紙成對（一張反傾 −1.2°、一張正傾 1°）。≤920px 疊紙改 `rotate(-0.8deg)`（translate 不變）；≤680px `content:none`。≤920px 起 `transform:none`（2026-11-18 追加五），桌機才有 `rotate(1deg)`。
+- **疊紙 `.hero-media`（2026-11-18）**：`<figure class="hero-photo">` 外包 `<div class="hero-media">`（`.hero-left` 不動、figure 內容不動）；`.hero-media` 為疊紙的定位錨點與左下露邊的參考框（`position:relative`、`width:100%`、桌機 `max-width:560px`、`justify-self:end`）。疊紙 `.hero-media::before`：`--board` 紙底＋2px 墨棕框、`rotate(-1.2deg) translate(-7px,9px)`、**左下露邊**、`z-index:0`（`.hero-photo` 以 `z-index:1` 壓在疊紙上）；`.hero-photo` 保留 `rotate(1deg)`（>920px 桌機），兩張紙成對（一張反傾 −1.2°、一張正傾 1°）。≤920px 疊紙改 `rotate(-0.8deg)`（translate 不變）；≤680px `content:none`。≤920px 起 `transform:none`（2026-11-18 追加五），桌機才有 `rotate(1deg)`。
 - **襯紙細線 `picture::before`（2026-11-18）**：`.hero-photo picture{position:relative}`；`.hero-photo picture::before{inset:0;border:1px dashed var(--dash);pointer-events:none;z-index:2}`——1px `--dash` 虛線只貼在照片外緣（照片框內的裁切線感），不跨 figcaption；`--dash` 僅作虛線分隔、不得當文字色。≤680px `content:none`。
-- **右上摺角（2026-11-18）**：`.hero-photo::after` 沙色三角形（`width:0;height:0`、`border-top:34px solid var(--sand)`、`border-left:34px solid transparent`、`z-index:2`、`pointer-events:none`，**無 `filter`、無 `drop-shadow`**）＋ `.hero-photo::before` 48px×2px 墨棕折線（`left:calc(100% - 34px)`、`top:0`、`width:48px`、`height:2px`、`background:var(--ink)`、`rotate(45deg)`、`transform-origin:0 50%`、`z-index:4`、`pointer-events:none`）——折線與摺角三角形**同座標系、同隨 `.hero-photo` 的 `rotate(1deg)` 旋轉（僅 >920px 桌機生效；≤920px 起 transform:none，2026-11-18 追加五）**。**無 `drop-shadow` 仍成立**。另：疊紙 `.hero-media::before` 有 `pointer-events:none`。≤680px 收起清單：`.hero-media::before`（疊紙）、`.hero-photo::before`（折線）、`.hero-photo picture::before`（襯紙細線）、`.hero-photo::after`（摺角三角）全 `content:none`。
+- **右上摺角（2026-11-18）**：`.hero-photo::after` 看板紙色三角形（`width:0;height:0`、`border-top:34px solid var(--board)`、`border-left:34px solid transparent`、`z-index:2`、`pointer-events:none`，**無 `filter`、無 `drop-shadow`**；2026-11-23 由 `--sand` 改 `--board`）＋ `.hero-photo::before` 48px×2px 墨棕折線（`left:calc(100% - 34px)`、`top:0`、`width:48px`、`height:2px`、`background:var(--ink)`、`rotate(45deg)`、`transform-origin:0 50%`、`z-index:4`、`pointer-events:none`）——折線與摺角三角形**同座標系、同隨 `.hero-photo` 的 `rotate(1deg)` 旋轉（僅 >920px 桌機生效；≤920px 起 transform:none，2026-11-18 追加五）**。**無 `drop-shadow` 仍成立**。另：疊紙 `.hero-media::before` 有 `pointer-events:none`。≤680px 收起清單：`.hero-media::before`（疊紙）、`.hero-photo::before`（折線）、`.hero-photo picture::before`（襯紙細線）、`.hero-photo::after`（摺角三角）全 `content:none`。
 - **≤680px 三項物理線索全部收起、紙紋保留**：疊紙／襯紙細線／摺角在 ≤680px 都是 `content:none`，但 `.hero-photo` 的紙紋 texture（見「紙紋材質 `.paper-grain`」登記）不受影響，仍疊 `--paper-grain`。
 - **不加 `drop-shadow`**：照片與貼紙一律用 `box-shadow` 實色偏移；**hero 無 drop-shadow（已移除摺角的 drop-shadow 實作，摺角改為無 filter 的沙色三角形＋墨棕折線）**。
 
@@ -335,9 +335,10 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **單條紙白盒子**：整列以 `--paper` 紙白底＋2px 墨棕框＋`2px 2px 0 var(--ink)` 硬陰影作為單一外殼；三項不再各自帶底色、框與陰影。
 - **虛線分隔**：項與項之間以 1px `--dash` 虛線分隔（`--dash` 僅作虛線分隔，不得當文字色）；外殼承擔結構、虛線承擔項界，不再有個別的盒子輪廓。
 - **第 3 項（停車，最長的一項）≤680px 整列**：`nth-child(3)` 在 `≤680px` 改佔滿整列顯示，分隔由左側虛線改為上邊 1px dashed `--dash`——避免三項在窄寬下擠成三行或讓停車資訊斷行。
+- **921–1100px 兩欄**：桌機中段改 `grid-template-columns:1fr 1fr`、`width:100%`，第 3 項跨兩欄並改成上邊 1px 虛線（2026-11-23 追加九），避免三欄在窄桌機被 `overflow:hidden` 裁切。
 - **無框 chip 的調整**：`<li>` 移除原獨立 chip 樣式（各自紙白底＋2px 框＋2px 硬陰影、4px 圓角、`gap:9px`，`≤680px` 原 `gap:6px`），改為無框的純文字項（字重 900、15px、line-height 1.5；第 3 項 ≤680px 為 14px）；事實帶是資訊列，不是徽章群——不傾斜、不加芥末黃底。
 - **無價格**：全三項皆非價格項；hero 唯一價格仍是照片卡左上 `.hero-photo__price`（「170 元起・多數 190」），事實帶不得再加價格。
-- **間距（2026-11-18 收緊）**：h1 → 段落 22px → **12px**；段落 → 事實帶 **28px**（`.hero-facts` 上距，原 22px）；事實帶 → CTA **28px**（`.hero-links` 上距，原 26px）；CTA → 開鍋晶片 **14px**（`.open-now--hero` 上距，原 22px）。事實帶與按鈕列、晶片之間的垂直節奏以此為準。
+- **間距（2026-11-18 收緊，2026-11-23 再調）**：h1 → 段落 **18px**；段落 → 事實帶 **28px**（`.hero-facts` 上距）；事實帶 → CTA **24px**（`.hero-links` 上距）、CTA 之間 gap **14px**；CTA → 開鍋晶片 **14px**（`.open-now--hero` 上距）。事實帶與按鈕列、晶片之間的垂直節奏以此為準。
 - **JS**：事實帶為靜態資訊列，無 JS 行為；關 JS 時三項事實仍完整可讀。
 
 #### 紙紋材質 `.paper-grain`（2026-11-18 登記）
@@ -347,19 +348,21 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **檔案**：`assets/paper-grain.png`，96×96、32bpp ARGB PNG（colortype 6、8-bit）、4,827 bytes；alpha max=10、avg≈2.23，色相為墨水色 `#382620`（＝`--ink`）。文件規範 alpha 上限 **12**（現值 max=10）；以 96px 磚平鋪（`background-size:96px 96px;background-repeat:repeat`）。
 - **非顏色、非漸層**：低透明位圖 texture，不是 CSS 漸層、不是色票、不是陰影；不入 `colors:` 與「YAML ↔ :root 命名對照」，配色決策不引用它。
 - **token**：`:root{--paper-grain:url("assets/paper-grain.png")}`——**非顏色 token**（見 Colors／Named Rules「The Paper-Grain Token Rule」）。
-- **適用表面（8 個選擇器）**：`body`、`.header`、`.hero`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact`；只疊 `background-image`＋`background-size`／`background-repeat`，不改原本的背景色、邊框與陰影。
-- **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下，上述 8 個選擇器一律 `background-image:none`。
+- **適用表面（實際 6 個）**：`.header`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact`；只疊 `background-image`＋`background-size`／`background-repeat`，不改原本的背景色、邊框與陰影。`body` 於 2026-11-23 追加八改 `background-image:none`、`.hero` 改點陣底紋（見下節），兩者不再套 `--paper-grain`。
+- **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下，上述 6 個選擇器一律 `background-image:none`。
 - **對比不變**：`--ink`/`--paper` 14.08:1（`--ink`/`--cream` 13.27:1，見 AGENTS.md 無障礙實測）；紋理即使以 alpha 上限（10/255）均勻覆蓋，最差擾動後仍 >12.8:1（實測約 13.14:1），遠高於 WCAG 2.2 AA 文字 4.5:1 下限。
 - **調整強度只改圖檔**：要調紋理強度就改 `paper-grain.png` 的 alpha（上限 12），不改版面 CSS；顏相、尺寸、`repeat` 方式都不在調整範圍。
 - **commit 前先實機檢視**：紋理是否搶過照片與邊框、投影／印刷下是否顯髒，都要在 commit 前用瀏覽器實測一輪；不滿意就改圖檔，不改版面。
 
-### `.hero` 專用做舊紙紋 `hero-cover`（2026-11-19 登記，滿版覆蓋版）
+### `.hero` 專用做舊紙紋 `hero-cover`（2026-11-19 登記，**2026-11-24 停用，資產保留**）
+
+> 2026-11-24 起 `.hero` 改用點陣底紋（見下節）；本節與 `hero-fiber` 的 CSS 宣告（`styles.css:945`）仍存在但被追加八（`styles.css:1137`）覆蓋，資產保留、不再載入。
 
 2026-11-19 使用者裁示：**只把 `.hero`（米沙色頁首背景）的紙紋換成滿版單張覆蓋 `assets/hero-cover.webp`**（取代 2026-11-19 上午登記的專用磁磚方案）；其餘 7 處紙紋與 The Density Budget Rule「僅此五類」維持不動。
 
 - **檔案**：`assets/hero-cover.webp`，1600×600、INK alpha max≈60／avg≈25／std≈13、16 階量化、~80KB WebP（含 alpha）。文件規範：`.hero` 專用 alpha 上限 **60**；**非磁磚、不平鋪**（滿版單張覆蓋）。
 - **來源與授權**：Meshy AI CC0（free texture library，<https://www.meshy.ai/textures>；LICENSE.txt），取 `stained-old-parchment_1k_displacement.jpg` 後製——裁切 box=(0,0)–(1024,384)（全寬 8:3 橫幅）、縮放 1600×600、INK alpha。（2026-11-19 加強二版：percentile stretch p2=3/p98=247＋unsharp 1.2px/60% threshold 1，INNK alpha 對比曲線 raise、16 階量化；實測 avg≈25.1 std≈12.8 ~80KB）**非自生成材質**；CC0 可自由使用、修改、再分發，無需署名。
-- **使用**：**僅 `.hero`**，`background-size:cover;background-repeat:no-repeat;background-position:center 45%`；**滿版單張覆蓋、非磁磚、不平鋪**。其餘 7 處紙紋仍套 96px `--paper-grain`（≤12），Density Budget 不變。經 `styles.css` 追加八覆蓋 `.hero` 的 `background-image`／`background-size`／`background-repeat`／`background-position`；現由 styles.css 追加九改為**兩層疊加（纖維在上、cover 在下）**。`body`、`.header`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact` 的 `--paper-grain` 不變。
+- **使用**：**僅 `.hero`**，`background-size:cover;background-repeat:no-repeat;background-position:center 45%`；**滿版單張覆蓋、非磁磚、不平鋪**。其餘 7 處紙紋仍套 96px `--paper-grain`（≤12），Density Budget 不變。經 `styles.css` 追加八覆蓋 `.hero` 的 `background-image`／`background-size`／`background-repeat`／`background-position`；當時由 styles.css 追加九改為**兩層疊加（纖維在上、cover 在下）**，已於 2026-11-24 停用。`body`、`.header`、`.hero-photo`、`.hero-facts`、`.pot-item`、`.menu-board`、`.contact` 的 `--paper-grain` 不變。
 - **token**：不新增 token；`:root` 的 `--paper-grain` 維持指向 `assets/paper-grain.png`，覆蓋只發生在 `.hero` 的 `background-image`，不動 token 與其他選擇器。
 - **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下，`.hero` 一律 `background-image:none`（追加八 media，與 `--paper-grain` 8 選擇器規則一致）。
 - **豁免範圍**：`.hero` 專用 alpha 上限 **60**（非磁磚版；比照前次 56 版豁免，限 `.hero`）；`body`／`.header`／`.hero-photo`／`.hero-facts`／`.pot-item`／`.menu-board`／`.contact` 的 `--paper-grain` 一律 ≤12；Density Budget「僅此五類」不動，本節不因此放寬通用上限。
@@ -368,13 +371,25 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **Density Budget**：分類維持「紙紋（整站紙面）」同一類，**不增加手工元素類別**；「僅此五類」維持不動，本登記不另計、不放寬上限。
 - **加強二版與加強一版的差異**：alpha max 44→60、avg 19.5→25.1、std 8.6→12.8、12→16 階、59.5KB→80KB，bytes ≤90KB 不變；整片覆蓋仍非磁磚，cover/no-repeat，中心 weighted 45%，不平鋪。
 
-### `.hero` 顆粒層 `hero-fiber`（2026-11-19 登記，F1 疊加層）
+### `.hero` 顆粒層 `hero-fiber`（2026-11-19 登記，**2026-11-24 停用，資產保留**）
+
+> 同 `hero-cover`：2026-11-24 起不再載入，CSS 宣告雖在但被點紋覆蓋；檔案保留。
 
 - **檔案**：`hero-fiber.png`、384×384、**13,134 bytes**、**palette PNG (P) + tRNS（每索引 alpha，等效 per-pixel alpha）**、ink `#382620`、alpha max **22**、levels **{0,8,14,18,22}**、alpha>0 **25.00%**、來源 `assets/stained-old-parchment-pbr-1k/stained-old-parchment_1k_color.jpg`（CC0，見 `LICENSE.txt`）後製、**無接縫比值 1.023**（wrap adjacency/內部比值 ≤1.2）、**mean|hp| 全圖 0.829／內部 256×256 0.804**（blur1.0）。
 - **製法概述**：灰階化高頻反差映射到 {8,14,18,22}，wrap-around 雙軸位移＋餘弦交叉淡化使可平鋪，量化為 4 個非零等級。CSS 顯示尺寸 192×192 repeat。
 - **使用方式**：**僅 `.hero`**，疊在 `hero-cover.webp` 之上。經 `styles.css` 追加九：`.hero` 使用兩層 `background-image` `url("assets/hero-fiber.png"), url("assets/hero-cover.webp")`，`background-size` `192px 192px, cover`，`background-repeat` `repeat, no-repeat`，`background-position` `0 0, center 45%`（纖維層在上、cover 在下）。`forced-colors: active` 與 `prefers-contrast: more` 下，`.hero` 一律 `background-image: none`。
 - **設計規範**：alpha 上限 **24**（本檔 max 22），不新增 token（仍以 `.hero` 覆蓋 `background-image` 為準）；不改其他 7 處 `--paper-grain`（`body`／`.header`／`.hero-photo`／`.hero-facts`／`.pot-item`／`.menu-board`／`.contact` 仍 ≤12）。**Density Budget**：維持「紙紋（整站紙面）」同一類，**不新增手工元素類別**；此為 `.hero` 的第二層紙紋例外（與 `hero-cover` 並列），「僅此五類」不因此改動。
 - **備註**：`hero-fiber.png` 不屬於 `--paper-grain` token，僅 `.hero` 使用；若要調整強度請改圖檔 alpha（≤24）或調整層級，不改其他 7 處與 Density Budget 通用上限。
+
+### `.hero` 點陣底紋（2026-11-24 生效，取代 hero-cover／hero-fiber）
+
+2026-11-24 hero 海報化時，`.hero` 的紙紋改成 CSS 產生的點陣底紋；`hero-cover.webp` 與 `hero-fiber.png` 停用（檔案保留，見上兩節）。
+
+- **實作**：`.hero{background-color:var(--sand);background-image:radial-gradient(color-mix(in srgb,var(--ink) 13%,transparent) 1px,transparent 1px);background-size:22px 22px}`（`styles.css:1137`）。
+- **不是色彩漸層**：`radial-gradient` 在此只畫 1px 圓點、22px 磚距，視覺是點陣紙面；`color-mix` 取樣既有 `--ink` 13%，不新增色票、不改 `:root`。
+- **無障礙**：`forced-colors: active` 與 `prefers-contrast: more` 下 `.hero{background-image:none}`；後者由 2026-11-24 追加二十一補在點紋之後（原 `prefers-contrast` 規則被點紋覆蓋）。
+- **Density Budget**：點陣底紋歸入「紙紋（整站紙面）」同一類，五類不變，不新增手工元素類別。
+- **HTML／token**：不改 HTML、不新增 token；`--paper-grain` 仍只給其餘 6 個表面。
 
 ### The Density Budget Rule（視覺密度預算，2026-11-18 登記）
 
@@ -404,7 +419,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 本站無表單輸入；僅有連結與按鈕。焦點一律 3px 外框，紅底區塊用奶油色內縮框。
 
 ### Navigation
-頁首 min-height 64px（內容多時可長）紙白底＋2px 墨棕底邊；logo 吉祥物 40px、店名 19px；導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁以紅色底線標記。首頁開鍋晶片置於 hero（.open-now--hero），內頁留在頁首。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 64px 單行：logo 只留吉祥物圖示 44px（實渲染 44×46px，2026-11-18 追加六）（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。非現行頁 hover／focus-visible 變 `--sand` 底＋2px 墨棕框＋2px 硬陰影＋translate(-1px,-1px)；`aria-current="page"` 紅字＋inset 底線不變；≤920px 抽屜內只換底色、不位移。
+頁首 min-height 64px（內容多時可長）紙白底＋2px 墨棕底邊；logo 吉祥物 40px、店名 19px；導覽主軸 14px/900、次要 13px/400，懸停變鍋湯深紅，現行頁為常駐貼紙（桌機紅底奶油字、手機砂底紅字）。首頁開鍋晶片置於 hero（.open-now--hero），內頁留在頁首。手機版 44px 漢堡選單展開為整列，桌面版常駐。≤680px 頁首收為 64px 單行：logo 只留吉祥物圖示 44px（實渲染 44×46px，2026-11-18 追加六）（文字隱藏）、頁首「導航」CTA 隱藏（404 保留「回首頁」），狀態晶片保留完整短字。非現行頁 hover／focus-visible 變 `--sand` 底＋2px 墨棕框＋2px 硬陰影＋`translateY(-1px)`；`aria-current="page"` 桌機為 `--red` 底＋`--on-red` 字＋2px 墨框＋`--shadow-1`，≤920px 砂底紅字；≤920px 抽屜內只換底色、不位移。
 
 ### 社群 QR 按鈕（.ig-qr／.line-qr）（2026-11-14 登記）
 2026-11-14 用戶裁決：**QR 維持現狀**——不加可見文字標籤、不改手機文字按鈕；`visit.html` 資訊卡與 footer 兩組 QR 都保留（footer IG 80px／LINE 72px，visit 144px／136px）。
@@ -428,9 +443,10 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **Do** 價格只寫在菜單頁 `<td class="price">` 文字；首頁只寫摘要「170 元起，多數 190」。
 - **Do** 週六是唯一中午時段，所有時間呈現必須與 PRODUCT.md 一致。
 - **Do** 觸控目標至少 44px，關 JS 時菜單與營業時間仍可讀。
+- **Do** 互動位移只動 Y 軸（懸停抬起 −1/−2px、按壓下沉 +1/+2px），不碰水平軸。
 
 ### Don't:
-- **Don't** 用模糊陰影、漸層或第二口音色稀釋鍋湯深紅。
+- **Don't** 用模糊陰影、色彩漸層或第二口音色稀釋鍋湯深紅（`.hero` 點陣底紋是圖案，不是色彩漸層）。
 - **Don't** 編品牌故事、寫「招牌」、評分或自創品名（如「沙茶豬肉鍋」）。
 - **Don't** 一句 `17:00-21:30` 打天下，營業時間與 JSON-LD 必須逐日分開。
 - **Don't** 在首頁逐項列價或在菜單頁加價格 JS 試算。
