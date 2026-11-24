@@ -1396,3 +1396,26 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
     border-color:var(--ink);
   }
 }
+
+/* ============================================================
+   2026-11-24 追加二十一：hero 點紋在高對比偏好下關閉
+   追加八（:1137）的點紋 background-image 晚於 :947 的 prefers-contrast
+   規則、同特異性，會把「關閉」蓋回點紋；forced-colors 已由 :1202 補救。
+   只追加，不改上方既有規則
+   ============================================================ */
+@media (prefers-contrast: more){.hero{background-image:none}}
+
+/* ============================================================
+   2026-11-24 追加二十二：價目列互動改純垂直（全站最後一處水平位移）
+   :1043 仍是 translate(-1px,-1px)，X 軸會推開相鄰內容。
+   hover/focus 抬起 -1px、active 按下 +1px；陰影 2px 靜態 → 4px hover → 2px active。
+   reduced-motion 必須排在後面，否則 a.board-row:hover 特異性會蓋掉 :1065。
+   只追加，不改上方既有規則
+   ============================================================ */
+@media(hover:hover){
+  a.board-row:hover,a.board-row:focus-visible{transform:translateY(-1px);box-shadow:var(--shadow-2)}
+  a.board-row:active{transform:translateY(1px);box-shadow:var(--shadow-1)}
+}
+@media(prefers-reduced-motion:reduce){
+  a.board-row,a.board-row:hover,a.board-row:focus-visible,a.board-row:active{transform:none;transition:none}
+}
