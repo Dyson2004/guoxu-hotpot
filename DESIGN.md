@@ -264,7 +264,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **導覽貼紙**：`.header nav a` 6px 圓角＋2px 透明框；非現行頁 hover = `--sand` 底＋墨棕框＋2px 陰影＋`translateY(-1px)`；`aria-current="page"` 桌機為 `--red` 底＋`--on-red` 字貼紙（≤920px 砂底紅字），非 inset 底線。
 - **區塊節奏**：`.section` 84px（≤680px 64px）、`.menu-section` 76px（≤680px 64px）；`.section.menu-page` 與 `.section.section-last` 例外以更高特異性保留。
 - **首頁 hero 徽章列**：`.hero-tag-lead`（`.hero-subbadge` 紅底 on-red 字 13px 900＋2px 框＋2px 陰影；`.hero-subtext` `--note` 字，2026-11-24 起無虛線底線）；`.hero-facts` 仍為單條紙白事實帶（三項、無價格、非獨立 chip）。
-- **價標與價目列**：`.circle-label` 改 `--yellow` 底 `--deep` 字；`.board-row` 紙白卡（2px 框＋2px 陰影＋12px 14px 內距＋10px 下距），hover 裝置上 `translateY(-1px)`＋4px、active `translateY(1px)`＋2px（2026-11-24 改純垂直）。
+- **價標與價目列**：`.circle-label` 改 `--yellow` 底 `--deep` 字；`.board-row` 紙白卡（2px 框＋2px 陰影＋12px 14px 內距＋10px 下距），hover 裝置上 `translateY(-1px)`＋4px、active `translateY(1px)`＋2px（2026-11-24 改純垂直）；2026-11-24 補 6px 圓角（`--radius-sm`）與窄版 `flex-wrap` 韌性（`gap:2px 12px`、`span:first-child{min-width:0}`，寬螢幕因 `span:last-child{margin-left:auto}` 不換行）。
 - **鍋卡 hover**：`@media(hover:hover)` 下 `translateY(-3px)`＋6px；靜態無陰影。
 - **FAQ**：`.faq-item summary` 圓角 8px；`[open]` 時下緣歸零。
 - **深色頁尾** `footer.footer--deep`：四欄（1.25fr/1fr/1fr/1fr、gap 40px；≤920px 2 欄、≤680px 1 欄），`--ink` 底；文字只用 `--on-red`／`--sand`／`--yellow`／`--line`（**禁用 `--note`**）；`.footer-heading` `--yellow` 14px 900＋2px `--line` 底線；底部兩行 `.footer-note`。404 維持原本紙白簡化頁尾。
@@ -301,7 +301,7 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 
 **照片帶 4px 陰影的鍋物卡本體不加陰影**（`.pot-card`）——照片自帶深度，再疊會過重；訪問卡／地圖／看板等無照片者用 6px。
 
-- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（`--yellow` 底、`--deep` 字、2px 墨棕邊、7° 微傾、字重 900）。 **2026-11-24 起整卡可點**：既有 h3 a 擴展 ::after 覆蓋整張 .pot-item（含照片、價格、描述），單一 tab stop、單一連結名稱；.pot-item{overflow:visible} 讓絕對定位生效、.circle-label{pointer-events:none} 避免攔截點擊；焦點由 .pot-item:focus-within 畫整卡紅框（關掉 h3 a:focus-visible 的雙重框），orced-colors 下用 CanvasText 保持可見。
+- **首頁三卡** `.pot-picture--photo`：照片取代湯色展示面（退役 Soup 三色）；img 撐滿卡片寬、aspect-ratio 1440/1053、object-fit cover；價格以 `.circle-label` chip 標示於右上（`--yellow` 底、`--deep` 字、2px 墨棕邊、7° 微傾、字重 900）。 **2026-11-24 起整卡可點**：既有 h3 a 擴展 ::after 覆蓋整張 .pot-item（含照片、價格、描述），單一 tab stop、單一連結名稱；.pot-item{overflow:visible} 讓絕對定位生效、.circle-label{pointer-events:none} 避免攔截點擊；焦點由 .pot-item:focus-within 畫整卡紅框（關掉 h3 a:focus-visible 的雙重框），forced-colors 下用 CanvasText 保持可見。**2026-11-24：照片上兩角隨卡片圓角收邊（`calc(var(--radius-md) - 2px)`）＋下緣 2px 墨棕分隔線；整卡按下回饋 `translateY(1px)`＋`--shadow-2`**。
 - **鍋物卡照片** `.pot-photo`（pot.html）：2px 墨棕邊＋4px 硬陰影（var(--ink)）、aspect-ratio 1440/1053、object-fit cover；內文排列不受影響。
 - **首屏 hero 吉祥物**（2026-11-14，**2026-11-18 退役**）：`<picture>` 先給 `assets/mascot-hero.webp`（377×391、約 18KB）＋PNG fallback `assets/mascot-hero.png`；`.hero-right picture{display:contents}` 讓 `<img>` 仍是 `.hero-right` 的 flex item，原 `.mascot` 寬度、rotate(-4deg)、drop-shadow 不變；`fetchpriority="high"` 保留在 img（首屏不 lazy）。**2026-11-18 起首頁 hero 不再使用大吉祥物與 `.hero-right`／`.hero-arc`**：改由照片卡 `.hero-photo` 領銜（見下節），吉祥物只在卡右下角以 78px 小貼紙出現（紙白底＋2px 框＋2px 硬陰影、`−6°`，非 `drop-shadow`）。
 - **吉祥物對外圖**（2026-11-14）：`index.html` `.about-image`（377×391）與 `guide.html` `.guide-lead`（188×195）同一張改用 `mascot-transparent.png`＋`mascot-transparent.webp`（377×391，webp 21,416B／png 131,872B），皆為 `<picture>`＋WebP `<source>`、PNG 作 `<img src>` fallback；`.about-image picture,.guide-lead picture{display:contents}` 沿用 hero 的做法，讓 `<img>` 繼續當版面盒，尺寸與間距不變。
@@ -450,3 +450,16 @@ YAML（本檔 `colors:`）與 styles.css `:root` 的對應；值一一全等，�
 - **Don't** 編品牌故事、寫「招牌」、評分或自創品名（如「沙茶豬肉鍋」）。
 - **Don't** 一句 `17:00-21:30` 打天下，營業時間與 JSON-LD 必須逐日分開。
 - **Don't** 在首頁逐項列價或在菜單頁加價格 JS 試算。
+
+## 2026-11-24 登記：首頁圓角收邊、按壓回饋與營業資訊列
+
+本輪六項集中於首頁（`styles.css` 追加二十五／追加二十六＋`index.html` 兩處），都是既有元件的收邊與互動一致化：不新增元件、不新增色票、不新增斷點，也沒有改動任何價格與營業時間事實。
+
+- **鍋卡照片上兩角收邊**（追加二十五）：`.pot-picture.pot-picture--photo` 補 `border-start-start-radius`／`border-start-end-radius: calc(var(--radius-md) - 2px)`（實際 6px），並補 `border-block-end: 2px solid var(--ink)`。問題：`.pot-item` 自 2026-11-24 改整卡可點後為 `overflow:visible`（絕對定位的連結覆蓋層不能被裁切），照片方角因此不再被卡片的 8px 圓角切掉，會在圓角缺口外溢成直角。收邊取「卡片圓角 − 照片框線 2px」，讓照片內緣與卡片外框同心；下緣 2px 墨棕線接手原本由裁切提供的照片／文字分界。
+- **鍋卡按壓回饋**：`.pot-item:active{transform:translateY(1px);box-shadow:var(--shadow-2)}`。`.pot-item` 靜態無陰影、`@media(hover:hover)` 抬起 −3px＋6px（見「鍋卡 hover」），按壓落 1px＋4px，只動 Y 軸，與 `.board-row`、主按鈕同一套按壓語言。`:active` 特異性高於既有的 `.pot-item`，因此 `prefers-reduced-motion:reduce` 下另補 `.pot-item:active{transform:none}` 回寫。
+- **首頁價目列 `.board-row`**：補 `border-radius:var(--radius-sm)`（6px），讓紙白卡與其他紙片的圓角級距一致；另補 `flex-wrap:wrap`、`gap:2px 12px`、`.board-row span:first-child{min-width:0}` 作為窄版韌性。寬螢幕不換行——既有 `span:last-child{margin-left:auto}`（2026-11-15）已把價位推到右緣，`justify-content:space-between` 的視覺結果不變。
+- **深色頁尾 QR 按壓回饋**：`footer.footer--deep .footer-social>a` 在 `@media(hover:hover)` 內補 `transition:transform .14s cubic-bezier(.4,0,.2,1)`、`:hover{transform:translateY(-2px)}`、`:active{transform:translateY(1px)}`，與全站 140ms 無回彈曲線一致。`prefers-reduced-motion:reduce` 下把 `:hover`／`:active` 一併回寫 `transform:none`（新規則特異性高於原本的 `:hover`，不回寫會被蓋掉）。QR 連結盒維持 88px、圖 80px（`styles.css:1223-1224`），「不加可見文字標籤」的 2026-11-14 裁決不變。
+- **`#about` 手寫字條 `.handwriting`**：`rotate(7deg)` → `rotate(-4deg)`，並補 `border:2px solid var(--ink)`、`border-radius:var(--radius-sm)`、`box-shadow:var(--shadow-1)`；padding `20px 26px`、`--red` 底 `--on-red` 字與絕對定位（`right:0;bottom:-32px`，≤680px `bottom:-22px`）不動。理由：`7deg` 是 Density Budget 登記給 `.circle-label` 的主紙片角度，手寫字條屬微傾裝飾（−1°～−6° 範圍）；**主傾斜仍只有 hero 照片 1°、`.menu-board` 1°、`.circle-label` 7° 三個，本輪未新增第四個主旋轉**。
+- **`#hours` 營業說明改資訊列**（追加二十六＋`index.html`）：`#hours` 右欄原本四段 `<p>` 改為 `<dl class="info-rows hours-note">`，內容為四組 `<div><dt>用餐／訂位／外帶／共鍋費</dt><dd>…</dd></div>`，沿用 `#contact` 與 `visit.html` 既有的 `.info-rows` 語言（`dt` 56px 紅字 900、`dd` 16px、列間 1px `--dash` 虛線）。四項事實不變，只是原本的粗體標籤拆成 `dt`／`dd`。`#hours .info-rows{margin-top:0}` 讓右欄首列與左側營業表格頂端對齊。`.hours-note p`／`.hours-note li` 舊規則保留：`menu.html` 的 `ul.hours-note` 仍在用，首頁已無 `<p>` 可比對。
+- **首屏吉祥物貼紙去掉 `lazy`**：`img.hero-photo__mascot` 移除 `loading="lazy"`（首屏元件延後載入等於等它進視窗才下載，沒有好處）；`decoding="async"`、`srcset`（`74w`／`148w`）、`sizes="78px"`、`width="74" height="77"`、空 `alt` 全部保留。照片本體的 `fetchpriority="high"` 不受影響。
+- **Density Budget**：本輪不動預算——照片收邊與分隔線屬既有框線語言、`.board-row` 圓角只是換級距、頁尾 QR 只加位移、`info-rows` 是既有資訊列樣式；手寫字條由 7° 收斂到 −4° 是**降低**一個大角度。「現用手工元素（五類）」與「全站僅三個主傾斜」兩條都不變。

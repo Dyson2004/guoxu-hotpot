@@ -1456,3 +1456,56 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
 /* CTA 列：允許換成兩行，不超出 Hero、不裁字 */
 .hero .hero-links{ flex-wrap:wrap }
 .hero .hero-links > *{ max-width:100% }
+
+/* ============================================================
+   2026-11-24 追加二十五：卡片圓角收邊、按壓回饋、清單與頁尾互動
+   ============================================================ */
+
+/* 1) 首頁鍋卡照片：上兩角隨卡片圓角，補 2px 墨棕分隔線 */
+.pot-picture.pot-picture--photo{
+  border-start-start-radius:calc(var(--radius-md) - 2px);
+  border-start-end-radius:calc(var(--radius-md) - 2px);
+  border-block-end:2px solid var(--ink);
+}
+
+/* 2) 鍋卡按壓回饋（只動 Y 軸）*/
+.pot-item:active{
+  transform:translateY(1px);
+  box-shadow:var(--shadow-2);
+}
+@media(prefers-reduced-motion:reduce){
+  .pot-item:active{transform:none}
+}
+
+/* 3) 首頁價目列 `.board-row`：圓角與窄版韌性 */
+.board-row{
+  border-radius:var(--radius-sm);
+  flex-wrap:wrap;
+  gap:2px 12px;
+}
+.board-row span:first-child{min-width:0}
+
+/* 4) 深色頁尾 QR：hover／focus 回饋（只動 Y 軸）*/
+@media(hover:hover){
+  footer.footer--deep .footer-social>a{transition:transform .14s cubic-bezier(.4,0,.2,1)}
+  footer.footer--deep .footer-social>a:hover{transform:translateY(-2px)}
+  footer.footer--deep .footer-social>a:active{transform:translateY(1px)}
+}
+@media(prefers-reduced-motion:reduce){
+  footer.footer--deep .footer-social>a,
+  footer.footer--deep .footer-social>a:hover,
+  footer.footer--deep .footer-social>a:active{transition:none;transform:none}
+}
+
+/* 5) `#about` 手寫字條 `.handwriting` 回歸貼紙語言 */
+.handwriting{
+  transform:rotate(-4deg);
+  border:2px solid var(--ink);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow-1);
+}
+
+/* ============================================================
+   2026-11-24 追加二十六：#hours 資訊列與表格頂端對齊
+   ============================================================ */
+#hours .info-rows{margin-top:0}
