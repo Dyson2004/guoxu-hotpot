@@ -108,14 +108,14 @@
         mobile = left + ' 分後開鍋';
       } else {
         text = '今天 ' + fmt(openAt) + ' 開鍋';
-        mobile = '今天 ' + fmt(openAt);
+        mobile = '今天 ' + fmt(openAt) + ' 開鍋';
       }
     } else {
       var next = (day + 1) % 7;
       var nextOpen = HOURS[next][0] * 60 + HOURS[next][1];
       var label = next === 6 ? '週六' : '明天';
       text = '今天打烊了・' + label + ' ' + fmt(nextOpen) + ' 開鍋';
-      mobile = label + ' ' + fmt(nextOpen);
+      mobile = label + ' ' + fmt(nextOpen) + ' 開鍋';
     }
     /* 文字不變就不覆寫：避免 aria-live 每 60 秒重複打斷讀屏 */
     outs.forEach(function (o) { if (o.textContent !== text) o.textContent = text; });
