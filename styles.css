@@ -1137,7 +1137,7 @@ footer.footer--deep .footer-social img{background:none;border-radius:0}
 body{background-image:none}
 .hero{background-color:var(--sand);background-image:radial-gradient(color-mix(in srgb,var(--ink) 13%,transparent) 1px,transparent 1px);background-size:22px 22px}
 
-/* 滿版高度有上限，垂直置中 */
+/* 此 clamp 已被檔尾 :1524 同特異度覆蓋、實際不生效（無上限、上對齊），保留僅為歷史紀錄 */
 .hero{min-height:clamp(600px,calc(100svh - var(--header-h) - 2px),860px);display:flex;flex-direction:column;justify-content:center}
 
 /* 桌機：欄寬、間距、內距 */
@@ -1602,3 +1602,10 @@ a.open-now--head:active{transform:translateY(1px);box-shadow:none}
 @media(forced-colors:active) and (max-width:920px){
   .hero-ribbon__list li:nth-child(n+3){border-block-start:1px solid CanvasText}
 }
+
+/* ============================================================
+   2026-11-25 追加二十八：404 頁面改用 100svh（覆蓋 :464 的 100vh）
+   避免行動瀏覽器網址列展開時造成高度超出可視視窗
+   只追加，不改上方既有規則
+   ============================================================ */
+body.page-404{min-height:100svh}
